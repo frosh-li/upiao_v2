@@ -11,6 +11,7 @@ module.exports = {
 
     showSockets() {
         this.logger.info('当前已连接站点',this._sockets.keys());
+        this.logger.info('报警写入记录',this.cautionHistoryMap);
     },
 
     addSocket(sn_key, socket) {

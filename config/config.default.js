@@ -16,7 +16,7 @@ module.exports = appInfo => {
             socketTimeout: 60000, // socket超时时间 1分钟
             clearRealData: '10s', // 清理实时数据时间间隔
             showSockets: '10s', // 显示sockets连接数的时间间隔
-            insertCautionInterval: 1000*60*10, //插入历史数据间隔
+            insertCautionInterval: 1000*60*20, //插入历史数据间隔
         }
     };
     config.sequelize = {

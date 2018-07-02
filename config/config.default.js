@@ -8,6 +8,11 @@ module.exports = appInfo => {
 
     // add your config here
     config.middleware = [];
+    config.security = {
+        csrf:{
+            enable: false,
+        }
+    };
     config.sockets = {
         client: {
             host:"127.0.0.1",

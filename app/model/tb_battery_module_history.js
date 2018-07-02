@@ -15,7 +15,7 @@ module.exports = app => {
       allowNull: false
     },
     record_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.CHAR(100),
       allowNull: false
     },
     sid: {

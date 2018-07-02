@@ -1,0 +1,1718 @@
+﻿
+<div class="left">
+    <div class="set">
+        <!--<div class="status">
+            <i class="icon yunxing"></i><span>运行状态</span><i class="icon zhengchang"></i><b>正常</b>
+            </div>
+            <div class="status-hold"></div>-->
+            <span class="left-hide" title="隐藏树形图"></span>
+        <div class="clear"></div>
+            <div class="set-wrap">
+                <dl class="set-list">
+                    <dd>刷新频率 <input type="text" id="collectDuration"/>秒</dd>
+                    <dd>已连接<span id="linkingNum"></span>个</dd>
+                    <dd>未连接<span id="unlinkNum"></span>个</dd>
+                </dl>
+                <dl class="set-btn">
+                <dd><span class="ggsj">更改时间</span></dd>
+                <dd><span class="kscj" id="startCollectBtn">开始刷新</span></dd>
+                <dd><span class="tzcj undis">停止刷新</span></dd>
+            </dl>
+        </div><!--set-wrap-->
+        <div class="clear"></div>
+
+        <!--div class="cx blocks" style="display:none;" id="duration">
+            <div class="search-wrap"><input id="dbeginTime" type="text" class="search" placeholder="开始时间"><img src="images/xiala-bg.jpg"> </div>
+            <div class="search-wrap"><input id="dendTime" type="text" class="search" placeholder="结束时间"><img src="images/xiala-bg.jpg"> </div>
+            <span class="cj-btn"></span>
+        </div--><!--cx-->
+        <div class="choose-nav" ><div class="nav-tree ztree" id="nav"></div></div><!--choose-nav-->
+        <div class="search-bar"><span class="search" id="navSearchBtn" ></span><input type="text" id="navSearchKeyword" placeholder="搜索"></div><!--search-bar-->
+    </div><!--set-->
+</div><!--left-->
+<div class="right">
+    <div class="up">
+        <div class="right-header">
+            <div class="show-bar">
+                <b class="yx-show" title="显示树形图"><i class="icon yunxing"></i>树形图</b>
+                <strong>实时数据</strong>
+                <div class="show-list">
+                    <dl>
+                        <dd><i class="icon graylight" id="alarm_collecting"></i><a>数据采集</a></dd>
+                        <!--dd><i class="icon grelight"></i><a>运行状态</a></dd-->
+                        <dd><i class="icon graylight" id="alarm_light"></i><a>灯光报警</a></dd>
+                        <dd><i class="icon graylight" id="alarm_sound"></i><a>声音报警</a></dd>
+                        <dd><i class="icon graylight" id="alarm_sms"></i><a>短信</a></dd>
+                        <dd><i class="icon graylight" id="alarm_mail"></i><a>邮件</a></dd>
+                        <dd class="baojing" style="display: none;"><img src="/css/img/alarm.gif?v1" /><em>数据报警</em><span class="bg">0</span><em>条</em></dd>
+                        <dd><a class="btn1" href="#/manage/caution">查看警情</a></dd>
+                        <dd class="mleft"><a class="btn2 stationPop">站信息</a></dd>
+                        <dd style="display: ;"><a class="btn1 exportdata">数据导出</a></dd>
+                        <dd ><a class="map-switch" href="#/map" id="map-switch" style="display:none"><img src="images/switch-map.png?v1" title="切换为地图模式" style="width:30px;height:30px;"></a></dd>
+                    </dl>
+                </div>
+            </div><!--show-bar-->
+            <div class="title-list">
+                <span class="zoom" title="窗口最大化"></span>
+                <ul class="item-list">
+                    <li class="active undis switch-btn manage station"><span><a href="#/manage/station">站数据</a></span><i for="station"></i></li>
+                    <li class="switch-btn undis manage group"><span><a href="#/manage/group">组数据</a></span><i for="group"></i></li>
+                    <li class="switch-btn undis manage battery"><span><a href="#/manage/battery">电池数据</a></span><i for="battery"></i></li>
+                    <li class="switch-btn undis manage caution"><span><a href="#/manage/caution">数据报警</a></span><i for="caution"></i></li>
+                    <li class="switch-btn undis manage systemAlarm"><span><a href="#/manage/systemAlarm">系统报警</a></span><i for="systemAlarm"></i></li>
+                    <!--li class="switch-btn undis manage ignores"><span><a href="#/manage/ignores">忽略警情</a></span><i for="ignores"></i></li-->
+                    <li class="switch-btn undis manage newstations"><span><a href="#/manage/newstations">待添加站</a></span><i for="newstations"></i></li>
+
+                    <!-- 设置 -->
+                    <li class="active switch-btn undis settings stationInfo"><span><a href="#/settings/stationInfo/stationSituation">基本信息</a></span></li>
+                    <li class="switch-btn undis settings manager"><span><a href="#/settings/manager/personal">管理人员</a></span></li>
+                    <li class="switch-btn undis settings message"><span><a href="#/settings/message">报警设置</a></span></li>
+                    <li class="switch-btn undis settings optionSetting"><span><a href="#/settings/optionSetting/stationOption">参数</a></span></li>
+                    <li class="switch-btn undis settings limitationSetting" id="limitationSetting" style="display:"><span><a href="#/settings/limitationSetting">报警级别</a></span></li>
+                    <li class="switch-btn undis settings cautionEquipmentSetting"><span><a href="#/settings/cautionEquipmentSetting/upperMonitor">报警设备</a></span></li>
+                    <li class="switch-btn undis settings update" id="update" style="display:"><span><a href="#/settings/update">远程升级</a></span></li>
+                    <li class="switch-btn undis settings equipmentSetting"><span><a href="#/settings/equipmentSetting">动环测控</a></span></li>
+                    <!-- 报表 -->
+                    <!--li class="active switch-btn undis report reportCaution"><span><a href="#/report/reportCaution">警情历史表</a></span></li>
+                    <li class="switch-btn undis report deviationTrend"><span><a href="#/report/deviationTrend">偏离趋势报表</a></span></li>
+                    <li class="switch-btn undis report chargeOrDischarge"><span><a href="#/report/chargeOrDischarge">充放电统计表</a></span></li-->
+                    <li class="switch-btn undis report batteryLife"><span><a href="#/report/batteryLife">电池使用年限统计表</a></span></li>
+                    <li class="switch-btn undis report reportIgnores"><span><a href="#/report/reportIgnores">警情忽略统计表</a></span></li>
+                    <!--li class="switch-btn undis report reportUilog"><span><a href="#/report/reportUilog/options">UI日志表</a></span></li-->
+                    <!-- 查询 -->
+                    <li class="active switch-btn undis qurey qureyStation"><span><a href="#/qurey/qureyStation">站数据</a><i for="station"></i></span></li>
+                    <li class="active switch-btn undis qurey qureyGroup"><span><a href="#/qurey/qureyGroup">组数据</a><i for="group"></i></span></li>
+                    <li class="active switch-btn undis qurey qureyBattery"><span><a href="#/qurey/qureyBattery">电池数据</a><i for="battery"></i></span></li>
+                    <li class="active switch-btn undis qurey qureyCaution"><span><a href="#/qurey/qureyCaution">数据报警</a></span></li>
+                    <li class="active switch-btn undis qurey ignores"><span><a href="#/qurey/ignores">忽略警情</a></span><i for="ignores"></i></li>
+                    <li class="active switch-btn undis qurey baseinfo"><span><a href="#/qurey/baseinfo/queryStationSituation">基本信息</a></span></li>
+                    <!--li class="active switch-btn undis qurey stationOption"><span><a href="#/qurey/stationOption/queryStationOption">参数</a></span></li-->
+                    <li class="active switch-btn undis qurey uilog"><span><a href="#/qurey/uilog/options">系统日志</a></span></li>
+                    <!--li class="active switch-btn undis qurey limitation"><span><a href="#/qurey/limitation">门限</a></span></li-->
+                    <li class="active switch-btn undis qurey runlog"><span><a href="#/qurey/runlog">运行日志</a></span></li>
+                    <!--li class="active switch-btn undis qurey option"><span><a href="#/qurey/option/stationOption">参数</a></span></li-->
+                    <li class="active switch-btn undis qurey equipment"><span><a href="#/qurey/equipment">动环测控</a></span></li>
+                    <li class="active switch-btn undis qurey adminConfig"><span><a href="#/qurey/adminConfig">管理人员</a></span></li>
+                    <li class="active switch-btn undis qurey IRCollect"><span><a href="#/qurey/IRCollect">实时内阻采集</a></span></li>
+                </ul>
+            </div><!--title-list-->
+        </div>
+        <div class="data-wrap">
+            <div class="list-header">
+                <form class="collect-jqtransform collectIRWrap kscj" id="collectIRWrap">
+                    <div class="rowElem">
+                        <label class="item-title">每次只能采集一个站点</label>
+
+                        <input type="password" id="cj_password" value="" style="width:100px;margin-right:10px;" autocomplete="false" />
+                        &nbsp;
+                        &nbsp;
+                        <input type="button" id="startCollectR" value="开始采集" style="margin-left:15px;" />
+                        &nbsp;
+                        &nbsp;
+                        <input type="button" id="clearCollect" value="清空历史" style="margin-left:15px;" />
+                    </div>
+                </form>
+                <!--搜索条-->
+                <form class="search-jqtransform undis">
+                    <div class="rowElem">
+                        <label class="item-title reportCaution" for="name">警情分类</label>
+                        <select name="ff" class="report-caution-selector" id="cationCategory">
+                            <option value="ALL">全部</option>
+                            <option value="R">红</option>
+                            <option value="O">橙</option>
+                            <option value="Y">黄</option>
+
+                        </select>
+                        <label class="item-title" for="name">开始时间</label>
+                        <input type="text" id="beginTime"/>
+                        <label class="item-title" for="name">结束时间</label>
+                        <input type="text" id="endTime"/>
+                        <input type="button" value="查询" id="searchBtn"/>
+                    </div>
+                </form>
+                <!--列表二级导航-->
+                <ul class="sub-list-tab" id="subListTab">
+                    <li class="active undis switch-btn stationInfo tree"><span><a href="#/settings/stationInfo/tree">树形结构图</a></span><i></i></li>
+                    <li class="active undis switch-btn stationInfo stationSituation"><span><a href="#/settings/stationInfo/stationSituation">站点情况</a></span><i></i></li>
+                    <li class="active undis switch-btn stationInfo batterys"><span><a href="#/settings/stationInfo/batterys">电池信息</a></span><i></i></li>
+                    <li class="active undis switch-btn stationInfo institutions"><span><a href="#/settings/stationInfo/institutions">主管单位信息</a></span><i></i></li>
+                    <li class="active undis switch-btn stationInfo upsInfo"><span><a href="#/settings/stationInfo/upsInfo">UPS信息</a></span><i></i></li>
+                    <li class="active undis switch-btn stationInfo monitorSeller"><span><a href="#/settings/stationInfo/monitorSeller">BMS厂家信息</a></span><i></i></li>
+
+                    <li class="active undis switch-btn baseinfo queryStationSituation"><span><a href="#/qurey/baseinfo/queryStationSituation">站点信息</a></span><i></i></li>
+                    <li class="active undis switch-btn baseinfo queryBatterys"><span><a href="#/qurey/baseinfo/queryBatterys">电池信息表</a></span><i></i></li>
+                    <li class="active undis switch-btn baseinfo queryInstitutions"><span><a href="#/qurey/baseinfo/queryInstitutions">用户单位信息表</a></span><i></i></li>
+
+                    <li class="active undis switch-btn baseinfo queryUpsInfo"><span><a href="#/qurey/baseinfo/queryUpsInfo">UPS信息表</a></span><i></i></li>
+                    <li class="active undis switch-btn baseinfo queryMonitorSeller"><span><a href="#/qurey/baseinfo/queryMonitorSeller">BMS厂家信息</a></span><i></i></li>
+
+                    <li class="active undis switch-btn manager personal"><span><a href="#/settings/manager/personal">人员</a></span><i></i></li>
+                    <li class="active undis switch-btn manager role" id="role"><span><a href="#/settings/manager/role">角色权限</a></span><i></i></li>
+
+                    <li class="switch-btn undis optionSetting stationOption"><span><a href="#/settings/optionSetting/stationOption">站参数</a></span><i></i></li>
+                    <li class="switch-btn undis optionSetting groupOption"><span><a href="#/settings/optionSetting/groupOption">组参数</a></span><i></i></li>
+                    <li class="switch-btn undis optionSetting batteryOption"><span><a href="#/settings/optionSetting/batteryOption">电池参数</a></span><i></i></li>
+                    <li class="switch-btn undis optionSetting systemOption" id="systemOption"><span><a href="#/settings/optionSetting/systemOption">系统报警参数</a></span><i></i></li>
+                    <li class="switch-btn optionSetting otherOption"><span><a href="#/settings/optionSetting/otherOption">其他参数</a></span><i></i></li>
+
+                    <li class="switch-btn undis option stationOption"><span><a href="#/qurey/option/stationOption">站参数</a></span><i></i></li>
+                    <li class="switch-btn undis option groupOption"><span><a href="#/qurey/option/groupOption">组参数</a></span><i></i></li>
+                    <li class="switch-btn undis option batteryOption"><span><a href="#/qurey/option/batteryOption">电池参数</a></span><i></i></li>
+
+                    <li class="active switch-btn undis cautionEquipmentSetting upperMonitor"><span><a href="#/settings/cautionEquipmentSetting/upperMonitor">上位机设备</a></span><i></i></li>
+                    <li class="switch-btn undis cautionEquipmentSetting stationMonitor"><span><a href="#/settings/cautionEquipmentSetting/stationMonitor">站设备</a></span><i></i></li>
+
+                    <li class="switch-btn undis reportUilog options"><span><a href="#/report/reportUilog/options">设置</a></span><i></i></li>
+                    <li class="switch-btn undis reportUilog user"><span><a href="#/report/reportUilog/user">用户登录登出</a></span><i></i></li>
+                    <li class="switch-btn undis reportUilog other"><span><a href="#/report/reportUilog/other">其他</a></span><i></i></li>
+
+                    <li class="switch-btn undis uilog options"><span><a href="#/qurey/uilog/options">设置</a></span><i></i></li>
+                    <li class="switch-btn undis uilog user"><span><a href="#/qurey/uilog/user">用户登录登出</a></span><i></i></li>
+                    <li class="switch-btn undis uilog other"><span><a href="#/qurey/uilog/other">其他</a></span><i></i></li>
+                </ul>
+                <!--按钮组-->
+                <ul class="list-btns" id="listBtns">
+                    <li class="stationInfo-stationSituation undis" id="addStation">添加站点</li>
+                    <!--<li class="optionSetting-stationOption undis" id="addStationOption">添加站参数</li>-->
+                    <li class="stationInfo-monitorSeller undis" id="addBMS">添加BMS</li>
+                    <li class="stationInfo-institutions undis" id="addCompany">添加单位</li>
+                    <li class="stationInfo-batterys undis" id="addBattery">添加电池</li>
+                    <li class="stationInfo-upsInfo undis" id="addUps">添加UPS</li>
+                    <li class="manager-personal undis" id="addPersonal">添加人员</li>
+                    <li class="manager-role undis" id="addRole">添加角色</li>
+                    <li class="message undis" id="addMessage">设置短信/邮箱</li>
+                    <li class="cautionEquipmentSetting-upperMonitor undis" id="optionPort">设置端口</li>
+                    <li class="equipmentSetting undis" id="addDevice">添加动环测控</li>
+                </ul>
+            </div>
+            <div class="data-item" id="dataItem"></div><!--data-item-->
+        </div><!--data-wrap-->
+    </div><!--up-->
+    <div class="down chart-wrap" id="down">
+            <span class="bottom-hide" title="隐藏趋势图"></span>
+            <div class="clear"></div>
+            <h4>环境温度</h4>
+        <div class="show-data" id="chart" style="min-height:300px;"></div>
+        <div class="btn-wrap clearfix">
+            <div class="btn-bg undis btns station qureyStation">
+                <a class="switch-btn l-radius active" field="Temperature">
+                    环境温度
+                    <span class="hide">(°C)</span>
+                </a>
+                <a class="switch-btn" field="Humidity">
+                    环境湿度
+                    <span class="hide">(%)</span>
+                </a>
+                <a class="switch-btn" field="Lifetime">
+                    预估寿命
+                    <span class="hide">(%)</span>
+                </a>
+                <a class="r-radius switch-btn" field="Capacity">
+                    预估容量
+                    <span class="hide">(%)</span>
+                </a>
+            </div>
+
+
+            <div class="btn-bg undis btns group qureyGroup">
+                <a class="l-radius switch-btn active" field="Current">
+                    组电流
+                    <span class="hide">(A)</span>
+                </a>
+                <a class="switch-btn disabled" field="Capacity">
+                    氢气浓度
+                </a>
+                <a class="switch-btn disabled" field="Capacity">
+                    氧气浓度
+                </a>
+                <a class="switch-btn" field="Temperature">
+                    组温度
+                    <span class="hide">(°C)</span>
+                </a>
+                <a class="r-radius switch-btn" field="Humidity">
+                    组湿度
+                    <span class="hide">(%)</span>
+                </a>
+            </div>
+
+
+            <div class="btn-bg undis btns battery qureyBattery">
+                <a class="l-radius switch-btn active" field="Voltage">
+                    电压状态
+                    <span class="hide">(V)</span>
+                </a>
+                <a class="switch-btn" field="Temperature">
+                    温度状态
+                    <span class="hide">(°C)</span>
+                </a>
+                <a class="switch-btn" field="Resistor">
+                    内阻状态
+                    <span class="hide">(mΩ)</span>
+                </a>
+                <a class=" switch-btn" field="Capacity">
+                    预估容量
+                    <span class="hide">(%)</span>
+                </a>
+                <a class="r-radius switch-btn" field="Lifetime">
+                    电池寿命
+                    <span class="hide">(%)</span>
+                </a>
+            </div>
+
+            <div class="btn-bg undis btns caution qureyCation"><a class="l-radius switch-btn active hide" field="U">警情统计</a></div>
+
+
+            <span class="shift-btn">柱线切换</span>
+
+
+
+
+            <p>
+                <em class="color red"></em>超限
+                <em class="color orange"></em>警告
+                <em class="color yellow"></em>关注
+                <em class="color green"></em>正常
+            </p>
+        </div><!--btn-list-->
+    </div><!--down-->
+</div><!--right-->
+<div class="clear"></div>
+
+<script id="listTpl" type="text/html">
+    <div id="list"></div>
+    <div class="list-bottom upage">
+        <div id="mpage" class="mpage">
+            <span class="mprev">上一页</span>
+            <span>当前页码:<i id="currentpage">-</i></span>
+            <span>总条数:<i id="totaldatas">-</i></span>
+            <span>总页数:<i id="totalpage">-</i></span>
+            <span class="mnext">下一页</span>
+        </div>
+    </div>
+
+    <div class="list-bottom undis">
+        <div id="page" class="page">
+            <span class="cur">全部</span>
+            <span class="prev">上一个站点</span>
+            <span class="next">下一个站点</span>
+        </div>
+    </div>
+
+    <div class="list-bottom ctotals">
+        <div>
+            <span>总条数:<i id="ctotals">-</i></span>
+        </div>
+    </div>
+
+    <div style="margin-right:100px;position: relative;left: 535px;" class="atype clearfix">
+        <span>报警统计：</span>
+        <span style="background-color:red;display: inline-block;width:25px;height:25px;"></span>
+        <span id="ared">0条</span>
+        <span style="background-color:#e7691d;display: inline-block;width:25px;height:25px;"></span>
+        <span id="aoo">0条</span>
+        <span style="background-color:#fabd05;display: inline-block;width:25px;height:25px;"></span>
+        <span id="ayellow">0条</span>
+    </div>
+</script>
+
+<!-- 实时数据：站数据列表模版/默认模版 -->
+<script id="defaultListTpl" type="text/html">
+    <div id="auto">
+        <table class="display" cellspacing="0" width="100%"></table>
+    </div>
+</script>
+<!-- 按钮-->
+<script type="text/html" id="editBtn">
+    <input type="button" class="list-edit-btn" pid="<%= id %>" value="编辑"/>
+</script>
+<script type="text/html" id="sendSocketBtn">
+    <input type="button" class="list-send-btn" pid="<%= sn %>" value="下发指令"/>
+</script>
+<script type="text/html" id="validateBtn">
+    <input type="button" class="list-validate-btn" pid="<%= id %>" sn="<%= sn %>" value="校验"/>
+</script>
+<script type="text/html" id="validateSuccess">
+    <span class="list-validate-success">校验成功</span>
+</script>
+<script type="text/html" id="clearBtn">
+    <input type="button" class="list-del-btn" pid="<%= id %>" value="清除"/>
+</script>
+<script type="text/html" id="delBtn">
+    <input type="button" class="list-del-btn" pid="<%= id %>" value="删除"/>
+</script>
+<!-- 设置：组参数列表 -->
+<script id="optionSetting_groupOptionListTpl" type="text/html">
+    <div id="auto">
+        <table class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th width="150">站序列号</th>
+                <th width="50">物理地址</th>
+                <th width="90">站号</th>
+                <th width="150">本站组数</th>
+                <th width="380">内阻测量间(s)</th>
+                <th width="150">电流测量间隔(s)</th>
+                <th width="150">站电压异常线(v)</th>
+                <th width="100"></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</script>
+<script type="text/html" id="groupOptionListBtns">
+    <input type="button" class="list-edit-btn" pid="<%= id %>" value="编辑"/>
+</script>
+<!-- 查询：站数据列表模版 -->
+<script id="qureyStationListTpl" type="text/html">
+    <div id="lock">
+        <table class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>站名</th>
+                <th>站号</th>
+                <th>时间</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div id="auto">
+        <table class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th width="80">电流(A)</th>
+                <th width="80">电压(V)</th>
+                <th width="150">环境温度(℃)</th>
+                <th width="150">环境湿度(%)</th>
+                <th width="60">组数</th>
+                <th width="80">电池数</th>
+                <th width="100">电池状态</th>
+                <th width="220">预估后备时间(H)</th>
+                <th width="220">环境温度上限(℃)</th>
+                <th width="220">黄精温度下限(℃)</th>
+                <th width="220">环境湿度上限(%)</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</script>
+<!-- 设置：树形结构 -->
+<script id="treeInfoTpl" type="text/html">
+    <div id="treeInfo" class="tree-info">
+        <div class="tree-info-body tree-item-wrap" level="0" treeid="<%= id %>" pid="<%= pid %>">
+            <div class="tree-info-toplevel">
+                <input class="level-title-input" type="text" value="<%= title %>"/>
+            </div>
+            <div class="tree-info-sub">
+                <span class="tree-info-subwrap"></span>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="treeInfoItemTpl" type="text/html">
+    <div class="tree-info-subitem tree-item-wrap <%= hasSameLevelClass %>" level="<%= level %>" treeid="<%= id %>" pid="<%= pid %>">
+        <div class="tree-info-subitem-top">
+            <input type="button" class="add-same-level <%=ifhide%>"/>
+            <input type="text" class="level-name  level-title-input" value="<%=title%>" current-title="<%=title%>"/>
+            <input type="button" class="delete-level <%=ifhide%>"/>
+            <input type="button" class="add-level <%=ifhide%>"/>
+        </div>
+        <div class="tree-info-subitem-sub">
+            <%= subhtml %>
+        </div>
+    </div>
+</script>
+
+
+<!-- 电池信息弹窗 -->
+<script type="text/html" id="ResolveCautionTpl">
+    <div id="ResolveCautionTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill">*</i>警情描述:</label>
+                <span id="desc" key="desc"></span>
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill">*</i>处理方法:</label>
+                <span id="suggestion" key="suggestion"></span>
+                <!--label class="item-title manager" for="name">当前管理员: <span class="text-green" id="username" key="username"></span></label-->
+                <input type="hidden" key="id" />
+                <input type="hidden" key="sn_key" />
+                <input type="hidden" key="code" />
+                <input type="hidden" key="type" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="markup"><i class="mast-fill" for="markup">*</i>处理过程: </label>
+                <textarea name="markup" id="markup" cols="65" rows="6" key="markup"></textarea>
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="markup"></label>
+                <div class="ignoreTips" style="color:red;display:table;">
+                提示：点击“忽略警情”按钮后，所选站点同类所有警情将一并被忽略！！！<br/>
+                误操作可到查询界面，忽略警情明细中取消忽略。
+                </div>
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn ignore" value="忽略警情"/>
+            <input type="button" class="submit-btn btn sdone" value="处理完成"/>
+        </div>
+    </div>
+</script>
+
+<!-- 登陆窗口弹出窗口 -->
+<script type="text/html" id="loginTpl">
+    <div id="loginTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="username"><i class="mast-fill" for="username">*</i>用户名: </label>
+                <input name="username" class="input-w-1" type="text" key="username" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="username"><i class="mast-fill" for="password">*</i>密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn loginsubmit" value="确定"/>
+            <input type="button" class="submit-btn btn chanagepwd" key="chanagepwd" value="修改密码"/>
+        </div>
+    </div>
+</script>
+
+<!-- 门限修改信息弹窗 -->
+<script type="text/html" id="limitationEditTpl">
+    <div id="limitationEditTpl-dialog" class="dialog">
+        <ul class="dialog-tabs item-list">
+            <li class="active switch-btn" t="1"><span>站报警</span></li>
+            <li class="switch-btn" t="2"><span>组报警</span></li>
+            <li class="switch-btn" t="3"><span>电池报警</span></li>
+            <li class="switch-btn" t="4"><span>其他报警</span></li>
+        </ul>
+        <table width="100%" class="display " cellspacing="0"></table>
+    </div>
+</script>
+
+<!-- 站点信息弹窗 -->
+<script type="text/html" id="socketEditTpl">
+    <div id="socketEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <input type="hidden" key="sn_key" />
+            <textarea style="height:300px;width:400px;" key="cmd"></textarea>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+        </div>
+    </div>
+</script>
+
+<!-- 站点信息弹窗 -->
+<script type="text/html" id="stationEditTpl">
+    <div id="stationEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem tree">
+                <label class="item-title"><i class="mast-fill">*</i>隶属区域: </label>
+                <div id="treesWrap" class="tree-selector ztree"></div>
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill">*</i>站号: </label>
+                <input class="input-w-1" type="text" validates="mastFill|num:2" key="sid" />
+                <input class="input-w-1" type="hidden" key="id" />
+                <label class="item-title"><i class="mast-fill">*</i>电流传感器安装状态: </label>
+                <input class="input-w-1" type="text" key="CurSensor" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="serial_number">*</i>物理地址: </label>
+                <input class="input-w-1" changedisabled={{disabled}} placeholder="10位MAC地址" type="text" key="serial_number"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="site_name">*</i>站点简称: </label>
+                <input class="input-w-1" type="text" key="site_name"/>
+                <label class="item-title"><i class="mast-fill" for="site_name">*</i>站点全称: </label>
+                <input class="input-w-1" type="text" key="StationFullChineseName"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">站点纬度: </label>
+                <input class="input-w-1" type="text" key="site_latitude"/>
+                <label class="item-title">站点经度: </label>
+                <input class="input-w-1" type="text" key="site_longitude"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">站点地址: </label>
+                <input class="input-w-1" type="text" key="site_location"/>
+                <label class="item-title">站点性质: </label>
+                <input class="input-w-1" type="text" key="site_property"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">固定电话: </label>
+                <input class="input-w-1" type="text" key="fix_phone"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="functionary">*</i>负责人: </label>
+                <input class="input-w-1" type="text" key="functionary"/>
+                <label class="item-title"><i class="mast-fill" for="functionary_phone">*</i>负责人电话: </label>
+                <input class="input-w-1" type="text" key="functionary_phone"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">是否接收短信: </label>
+                <select class="input-w-1" key="functionary_sms">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+                <label class="item-title">接收邮件(不接收填空): </label>
+                <input class="input-w-1" type="text" key="functionary_mail"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">设备负责人: </label>
+                <input class="input-w-1" type="text" key="device_owner"/>
+                <label class="item-title">设备负责人电话: </label>
+                <input class="input-w-1" type="text" key="device_owner_phone"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">紧急联系人姓名: </label>
+                <input class="input-w-1" type="text" key="emergency_person"/>
+                <label class="item-title">紧急联系人手机: </label>
+                <input class="input-w-1" type="text" key="emergency_phone"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">区域主管: </label>
+                <input class="input-w-1" type="text" key="area_owner"/>
+                <label class="item-title">区域主管电话: </label>
+                <input class="input-w-1" type="text" key="area_owner_phone"/>
+            </div>
+            <div class="rowElem">
+
+                <label class="item-title">接收邮件(不接收填空): </label>
+                <input class="input-w-1" type="text" key="area_owner_mail"/>
+                <label class="item-title">是否接收短信: </label>
+                <select class="input-w-1" key="area_owner_sms">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">上级主管: </label>
+                <input class="input-w-1" type="text" key="parent_owner"/>
+                <label class="item-title">上级主管电话: </label>
+                <input class="input-w-1" type="text" key="parent_owner_phone"/>
+            </div>
+            <div class="rowElem">
+
+                <label class="item-title">接收邮件(不接收填空): </label>
+                <input class="input-w-1" type="text" key="parent_owner_mail"/>
+                <label class="item-title">是否接收短信: </label>
+                <select class="input-w-1" key="parent_owner_sms">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">电池组数: </label>
+                <input class="input-w-1" type="text" key="groups"/>
+                <label class="item-title">每组电池数: </label>
+                <input class="input-w-1" type="text" key="batteries"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">邮政编码: </label>
+                <input class="input-w-1" type="text" key="postal_code"/>
+                <label class="item-title">电池码放状态: </label>
+                <select class="input-w-1" key="battery_status">
+                    <option value="平地">平地</option>
+                    <option value="机箱">机箱</option>
+                </select>
+                <!--input class="input-w-1" type="text" key="battery_status"/-->
+            </div>
+            <div class="rowElem">
+                <label class="item-title">IP地址: </label>
+                <input class="input-w-1" type="text" key="ipaddress"/>
+                <label class="item-title" >控制器IP地址或方式: </label>
+                <input class="input-w-1" type="text" key="ipaddress_method"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">站点控制器型号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="site_control_type"/>
+                <label class="item-title">BMS系统安装日期: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="bms_install_date"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">组电流采集器型号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="group_collect_type"/>
+                <label class="item-title">组电流采集器数量: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="group_collect_num"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">互感器品牌: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="inductor_brand"/>
+                <label class="item-title">互感器型号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="inductor_type"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">组电流采集器安装模式: </label>
+                <input class="input-w-1"  changedisabled={{disabled}} type="text" key="group_collect_install_type"/>
+                <label class="item-title">电池数据采集器型号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_collect_type"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">电池数据采集器数量: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_collect_num"/>
+                <label class="item-title">环境温湿度方式: </label>
+                <!--input class="input-w-1" type="text" key="humiture_type"/-->
+                <select class="input-w-1" changedisabled={{disabled}} key="humiture_type">
+                    <option value="恒温">恒温</option>
+                    <option value="自然">自然</option>
+                </select>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">灯光报警: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="has_light"/>
+                <label class="item-title">声音报警: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="has_speaker"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">短信: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="has_sms"/>
+                <label class="item-title">智能控制: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="has_smart_control"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">温湿度传感器: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="has_group_TH_control"/>
+                <label class="item-title">氢氧气传感器: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="has_group_HO_control"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title">网口MAC: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="device_mac"/>
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="remark">
+                备注 :
+                </label>
+                <input class="input-w-1" type="text" key="remark" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="password">*</i>修改或编辑密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+           <!--<div class="rowElem">
+                <label class="item-title" for="name">负责人手机: </label>
+                <input class="input-w-1" type="text" key="person_phone"/>
+               <label class="item-title" for="name">负责人姓名: </label>
+               <input class="input-w-1" type="text" key="person_name"/>
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="name">负责人固话: </label>
+                <input class="input-w-1" type="text" key="person_tel"/>
+           </div>-->
+        </form>
+        <div class="form-btns">
+            <input type="button" class="next-btn undis btn" value="下一步"/>
+            <input type="button" class="submit-btn undis btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 电池信息弹窗 -->
+<script type="text/html" id="batteryEditTpl">
+    <div id="batteryEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill">*</i>站点: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" id="stationSelector" key="site_name" />
+                <input type="hidden" changedisabled={{disabled}} key="sid" />
+                <input type="hidden" changedisabled={{disabled}} key="id" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill" for="battery_factory">*</i>生产厂家: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_factory" />
+                <label class="item-title" for="name">电池型号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_num" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">生产日期: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" ipttype="date" key="battery_date" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">标称电压(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_voltage" />
+                <label class="item-title" for="name">标称内阻(MΩ): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_oum" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">电池标称容量(Ah): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_dianrong" />
+                <label class="item-title" changedisabled={{disabled}} for="name">浮充标准电压(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_float_voltage" />
+            </div>
+            <div class="rowElem">
+
+
+                <label class="item-title" for="name">最大充电电流(A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_max_current" />
+                <label class="item-title" for="name">最大放电电流(A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_max_discharge_current" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">浮充电压上限(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_float_up" />
+                <label class="item-title" for="name">电池浮充电压下限(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_float_dow" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">放电电压下限(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_discharge_down" />
+                <label class="item-title" for="name">强制报废日期: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" ipttype="date" key="battery_scrap_date" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">设计寿命(年): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_life" />
+                <label class="item-title" for="name">电池级柱类型: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_column_type" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">温度要求(度): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_temperature" />
+                <label class="item-title" for="name">湿度要求(%): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_humidity" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">电池种类: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_type" />
+                <label class="item-title" for="name">电池厂家联系电话: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="battery_factory_phone" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="remark">
+                备注 :
+                </label>
+                <input class="input-w-1" type="text" key="remark" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="password">*</i>修改或编辑密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="next-btn undis btn" value="下一步"/>
+            <input type="button" class="submit-btn undis btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 动环测控 -->
+<script type="text/html" id="deviceEditTpl">
+    <div id="deviceEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="name">站点: </label>
+                <input class="input-w-1" type="text" id="stationSelector" key="site_name" />
+                <input type="hidden" key="sid" />
+                <input type="hidden" key="id" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">名称: </label>
+                <input class="input-w-1" type="text" key="Device_name" />
+                <label class="item-title" for="name">功能: </label>
+                <input class="input-w-1" type="text" key="Device_fun" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">生产厂家: </label>
+                <input class="input-w-1" type="text" key="Device_Factory_Name" />
+                <label class="item-title" for="name">厂家地址: </label>
+                <input class="input-w-1" type="text" key="Device_Factory_Address" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">厂家邮编: </label>
+                <input class="input-w-1" type="text" key="Device_Factory_PostCode" />
+                <label class="item-title" for="name">技术支持网址: </label>
+                <input class="input-w-1" type="text" key="Device_Factory_website" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">技术支持固话: </label>
+                <input class="input-w-1" type="text" key="Device_Factory_Technology_cable_phone" />
+                <label class="item-title" for="name">技术支持手机: </label>
+                <input class="input-w-1" type="text" key="Device_Factory_Technology_cellphone" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- Company信息弹窗 -->
+<script type="text/html" id="CompanyEditTpl">
+    <div id="CompanyEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+        <div class="rowElem tree">
+            <label class="item-title"><i class="mast-fill">*</i>隶属区域: </label>
+            <div id="treesWrap" class="tree-selector ztree"></div>
+            <input type="hidden" key="treeid" />
+        </div>
+        <div class="rowElem">
+            <label class="item-title" for="name">单位名称 : </label>
+            <input class="input-w-1" type="text" key="company_name" />
+            <label class="item-title" for="name">单位地址 : </label>
+            <input class="input-w-1" type="text" key="company_address" />
+        </div>
+        <div class="rowElem">
+                <label class="item-title" for="area_name">
+                <i class="mast-fill" for="area_name"></i>管辖 :
+                </label>
+                <input type="hidden" key="id" />
+                <input class="input-w-1" type="text" key="area_name" />
+                <label class="item-title" for="parent_area">隶属 : </label>
+                <input class="input-w-1" type="text" key="parent_area" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">主管领导姓名 : </label>
+                <input class="input-w-1" type="text" key="supervisor_name" />
+                <label class="item-title" for="name">主管领导电话 : </label>
+                <input class="input-w-1" type="text" key="supervisor_phone" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="owner">部门负责人 : </label>
+                <input class="input-w-1" type="text" key="owner" />
+                <label class="item-title" for="owner_phone">
+                部门负责人电话 :
+                </label>
+                <input class="input-w-1" type="text" key="owner_phone" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">经度 : </label>
+                <input class="input-w-1" type="text" key="longitude" />
+                <label class="item-title" for="name">纬度 : </label>
+                <input class="input-w-1" type="text" key="latitude" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">所辖站点个数 : </label>
+                <input class="input-w-1" type="text" key="station_num" /><!--
+                <label class="item-title" for="name"><i class="mast-fill">*</i>已联网站点个数 : </label>
+                <input class="input-w-1" type="text" key="station_num" />-->
+                <label class="item-title" for="name">隶属层级 : </label>
+                <input class="input-w-1" type="text" key="area_level" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">联网方式 : </label>
+                <input class="input-w-1" type="text" key="network_type" />
+                <label class="item-title" for="name">网络带宽 : </label>
+                <input class="input-w-1" type="text" key="bandwidth" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">IP地址 : </label>
+                <input class="input-w-1" type="text" key="ipaddr" />
+                <label class="item-title" for="name">上位机品牌 : </label>
+                <input class="input-w-1" type="text" key="computer_brand" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">上位机操作系统 : </label>
+                <input class="input-w-1" type="text" key="computer_os" />
+                <label class="item-title" for="name">主机配置 : </label>
+                <input class="input-w-1" type="text" key="computer_conf" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">浏览器名称 : </label>
+                <input class="input-w-1" type="text" key="browser_name" />
+                <label class="item-title" for="name">服务器容量 : </label>
+                <input class="input-w-1" type="text" key="server_capacity" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">服务器型号 : </label>
+                <input class="input-w-1" type="text" key="server_type" />
+                <label class="item-title" for="name">云空间地址 : </label>
+                <input class="input-w-1" type="text" key="cloud_address" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">数据备份周期 : </label>
+                <input class="input-w-1" type="text" key="backup_period" />
+                <label class="item-title" for="name">数据备份方式 : </label>
+                <input class="input-w-1" type="text" key="backup_type" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">监控部门名称 : </label>
+                <input class="input-w-1" type="text" key="supervisor_depname" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">监控部门负责人 : </label>
+                <input class="input-w-1" type="text" key="monitor_name1" />
+                <label class="item-title" for="name">监控部门负责人电话 : </label>
+                <input class="input-w-1" type="text" key="monitor_phone1" />
+
+
+            </div>
+            <div class="rowElem">
+
+                <label class="item-title" for="name">其他负责人 : </label>
+                <input class="input-w-1" type="text" key="monitor_name2" />
+                <label class="item-title" for="name">其他负责人电话 : </label>
+                <input class="input-w-1" type="text" key="monitor_phone2" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">其他负责人 : </label>
+                <input class="input-w-1" type="text" key="monitor_name3" />
+                <label class="item-title" for="name">其他负责人电话 : </label>
+                <input class="input-w-1" type="text" key="monitor_phone3" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">监控部门固定电话1 : </label>
+                <input class="input-w-1" type="text" key="monitor_tel1" />
+                <label class="item-title" for="name">监控部门固定电话2 : </label>
+                <input class="input-w-1" type="text" key="monitor_tel2" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="duty_status">
+                值守状态/班次 :
+                </label>
+                <input class="input-w-1" type="text" key="duty_status" />
+                <label class="item-title" for="manage">管理员 : </label>
+                <input class="input-w-1" type="text" key="manage" />
+            </div>
+
+
+
+            <div class="rowElem">
+                <label class="item-title" for="viewer">
+                观察员 :
+                </label>
+                <input class="input-w-1" type="text" key="viewer" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="remark">
+                备注 :
+                </label>
+                <input class="input-w-1" type="text" key="remark" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- BMS信息弹窗 -->
+<script type="text/html" id="BMSEditTpl">
+    <div id="BMSEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <!--<div class="rowElem">
+                <label class="item-title" for="name">站点: </label>
+                <input class="input-w-1" type="text" id="stationSelector" key="site_name" />
+                <input type="hidden" key="sid" />
+            </div>-->
+            <div class="rowElem">
+                <input type="hidden" key="id" />
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_company">*</i>生产厂家 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_company" />
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_device_addr">*</i>厂家地址 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_device_addr" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">邮编 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_postcode" />
+                <label class="item-title" for="name">支持网址 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_url" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">支持固话 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_tel" />
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_phone">*</i>支持手机 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_phone" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_service_phone">*</i>服务商电话 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_service_phone" />
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_service_name">*</i>服务商名称 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_service_name" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_service_contact">*</i>服务商联系人 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_service_contact" />
+                <label class="item-title" for="name"><i class="mast-fill" for="bms_service_url">*</i>服务商地址 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_service_url" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">软件版本号 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_version" />
+                <label class="item-title" for="name">软件升级记录 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_update_mark" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">备注 : </label>
+                <input changedisabled={{disabled}} class="input-w-1" type="text" key="bms_mark" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- UPS信息弹窗 -->
+<script type="text/html" id="UPSEditTpl">
+    <div id="UPSEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="name">站点: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" id="stationSelector" key="site_name" />
+                <input type="hidden" key="sid" />
+                <input type="hidden" key="id" />
+           </div>
+           <!--div class="rowElem">
+                <label class="item-title" for="usid"><i class="mast-fill" for="usid">*</i>站号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="usid" />
+
+           </div-->
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill" for="ups_factory">*</i>生产厂家: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_factory" />
+                <label class="item-title" for="name">型号: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_type" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">生产日期: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" ipttype="date" key="ups_create_date" />
+                <label class="item-title" for="name">安装日期: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" ipttype="date" key="ups_install_date" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name"><i class="mast-fill" for="ups_factory">*</i>功率(W/H): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_power" />
+                <label class="item-title" for="name">冗余数量(台): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="redundancy_num" />
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="ups_power_in">输入功率(W/A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_power_in" />
+                <label class="item-title" for="ups_power_out">输出功率(W/A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_power_out" />
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="ups_battery_vol">外接电池电压(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_battery_vol" />
+                <label class="item-title" for="ups_battery_current">外接电池电流(A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_battery_current" />
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="ac_protect">AC过流保护(V/A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ac_protect" />
+                <label class="item-title" for="dc_protect">DC过流保护(V/A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="dc_protect" />
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="on_net">联网检测: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="on_net" />
+                <label class="item-title" for="alarm_content">报警内容: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="alarm_content" />
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="discharge_protect">放电保护值(%): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="discharge_protect" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">浮充电压(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="floting_charge" />
+                <label class="item-title" for="name">电压范围(V): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_vdc" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">额定候备时间(小时): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_reserve_hour" />
+                <label class="item-title" for="name">充电方式: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_charge_mode" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">最大充电电流(A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_max_charge" />
+                <label class="item-title" for="name">最大放电电流(A): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_max_discharge" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">规定维护周期(天): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_period_days" />
+                <label class="item-title" for="name">维护放电时长(分钟): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_discharge_time" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">维护放电容量(%): </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_discharge_capacity" />
+                <label class="item-title" for="name">维护到期日: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" ipttype="date" key="ups_maintain_date" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">联系电话: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_vender_phone" />
+                <label class="item-title" for="name">服务商: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_service" />
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">服务商联系人: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_vender" />
+                <label class="item-title" for="name">服务商电话: </label>
+                <input class="input-w-1" changedisabled={{disabled}} type="text" key="ups_service_phone" />
+           </div>
+           <div class="rowElem">
+                <label class="item-title" for="remark">
+                备注 :
+                </label>
+                <input class="input-w-1" type="text" key="remark" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="password">*</i>修改或编辑密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 人员弹窗 -->
+<script type="text/html" id="personalEditTpl">
+    <div id="personalEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem tree">
+                <label class="item-title"><i class="mast-fill">*</i>隶属区域: </label>
+                <div id="treesWrap" class="tree-selector ztree"></div>
+                <input type="hidden" key="id" />
+            </div>
+
+            <div class="rowElem">
+                <label class="item-title" for="name">登陆名: </label>
+                <input class="input-w-1" type="text" key="username" />
+                <label class="item-title" for="name">登陆密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="unit">单位名称: </label>
+                <input class="input-w-1" type="text" key="unit" />
+                <label class="item-title" for="backup_phone">备用电话: </label>
+                <input class="input-w-1" type="text" key="backup_phone" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">姓名: </label>
+                <input class="input-w-1" type="text" key="name" />
+                <label class="item-title" for="name">电话: </label>
+                <input class="input-w-1" type="text" key="phone" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">职位: </label>
+                <input class="input-w-1" type="text" key="postname" />
+                <label class="item-title" for="name">邮箱: </label>
+                <input class="input-w-1" type="text" key="email" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">地址: </label>
+                <input class="input-w-1" type="text" key="location" />
+                <label class="item-title" for="name">班次: </label>
+                <input class="input-w-1" type="text" key="duty_num" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">刷新频率: </label>
+                <input class="input-w-1" type="text" key="refresh" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">角色: </label>
+                <select key="role">
+                    <option value=1>超级管理员</option>
+                    <option value=2>管理员</option>
+                    <option value=3>观察员</option>
+                </select>
+                <label class="item-title" for="canedit">是否有编辑权限: </label>
+                <select key="canedit">
+                    <option value=1>是</option>
+                    <option value=0>否</option>
+                </select>
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 短信/邮箱弹窗 -->
+<script type="text/html" id="messageEditTpl">
+    <div id="messageEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem tree">
+                <label class="item-title" for="name"><i class="mast-fill">*</i>隶属区域: </label>
+                <div id="treesWrap" class="tree-selector ztree"></div>
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">接收人名称: </label>
+                <input class="input-w-1" type="text" key="username" />
+            </div>
+            <div class="rowElem">
+               <label class="item-title" for="name">手机号码: </label>
+               <input class="input-w-1" type="text" key="phone"/>
+               <label><input type="checkbox" key="phone_status" name="phone_status" checked/>启用</label>
+            </div>
+            <div class="rowElem">
+               <label class="item-title" for="name">邮箱: </label>
+               <input class="input-w-1" type="text" key="email"/>
+               <label><input type="checkbox" key="email_status" name="email_status" checked/>启用</label>
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 站参数弹窗 -->
+<script type="text/html" id="stationOptionEditTpl">
+    <div id="stationOptionEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <!--<div class="rowElem">
+                <label class="item-title" for="name">站点: </label>
+                <input class="input-w-1" type="text" id="stationSelector" key="site_name" />
+            </div>-->
+            <div class="rowElem">
+                <input type="hidden" key="id" />
+                <label class="item-title" for="sn_key">站MAC地址: </label>
+                <input class="input-w-1" type="text" key="sn_key" />
+                <label class="item-title" for="name">站号: </label>
+                <input class="input-w-1" type="text" key="sid" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="sn_key">电流传感器安装状态: </label>
+                <input class="input-w-1" type="text" key="CurSensor" />
+            </div>
+            <div class="rowElem">
+
+                <label class="item-title" for="name">站内组数: </label>
+                <input class="input-w-1" type="text" key="Groups" />
+                <label class="item-title" for="name">每组电池数: </label>
+                <input class="input-w-1" type="text" key="GroBats" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">内阻测量间隔(s): </label>
+                <input class="input-w-1" type="text" key="Time_MR" />
+                <label class="item-title" for="name">数据间隔(s): </label>
+                <input class="input-w-1" type="text" key="SampleInt" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">高温报警_红: </label>
+                <input class="input-w-1" type="text" key="MaxTem_R" />
+                <label class="item-title" for="name">高温报警_橙: </label>
+                <input class="input-w-1" type="text" key="MaxTem_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">高温报警_黄: </label>
+                <input class="input-w-1" type="text" key="MaxTem_Y" />
+                <label class="item-title" for="name">低温报警_红: </label>
+                <input class="input-w-1" type="text" key="MinTem_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">低温报警_橙: </label>
+                <input class="input-w-1" type="text" key="MinTem_O" />
+                <label class="item-title" for="name">低温报警_黄: </label>
+                <input class="input-w-1" type="text" key="MinTem_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">高湿报警_红: </label>
+                <input class="input-w-1" type="text" key="MaxHum_R" />
+                <label class="item-title" for="name">高湿报警_橙: </label>
+                <input class="input-w-1" type="text" key="MaxHum_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">高湿报警_黄: </label>
+                <input class="input-w-1" type="text" key="MaxHum_Y" />
+                <label class="item-title" for="name">低湿报警_红: </label>
+                <input class="input-w-1" type="text" key="MinHum_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">低湿报警_橙: </label>
+                <input class="input-w-1" type="text" key="MinHum_O" />
+                <label class="item-title" for="name">低湿报警_黄: </label>
+                <input class="input-w-1" type="text" key="MinHum_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">站电流量程: </label>
+                <input class="input-w-1" type="text" key="CurRange" />
+                <label class="item-title" for="name">站电流系数: </label>
+                <input class="input-w-1" type="text" key="KI" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">站电流零位: </label>
+                <input class="input-w-1" type="text" key="ZeroCurADC" />
+                <label class="item-title" for="name">放电报警_红: </label>
+                <input class="input-w-1" type="text" key="DisChaLim_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">放电报警_橙: </label>
+                <input class="input-w-1" type="text" key="DisChaLim_O" />
+                <label class="item-title" for="name">放电报警_黄: </label>
+                <input class="input-w-1" type="text" key="DisChaLim_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">充电报警_红: </label>
+                <input class="input-w-1" type="text" key="ChaLim_R" />
+                <label class="item-title" for="name">充电报警_橙: </label>
+                <input class="input-w-1" type="text" key="ChaLim_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">充电报警_黄: </label>
+                <input class="input-w-1" type="text" key="ChaLim_Y" />
+                <label class="item-title" for="name">高压报警_红: </label>
+                <input class="input-w-1" type="text" key="HiVolLim_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">高压报警_橙: </label>
+                <input class="input-w-1" type="text" key="HiVolLim_O" />
+                <label class="item-title" for="name">高压报警_黄: </label>
+                <input class="input-w-1" type="text" key="HiVolLim_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">低压报警_红: </label>
+                <input class="input-w-1" type="text" key="LoVolLim_R" />
+                <label class="item-title" for="name">低压报警_橙: </label>
+                <input class="input-w-1" type="text" key="LoVolLim_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">低压报警_黄: </label>
+                <input class="input-w-1" type="text" key="LoVolLim_Y" />
+                <label class="item-title" for="name">站充放电判据: </label>
+                <input class="input-w-1" type="text" key="ChaCriterion" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="password">*</i>修改或编辑密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 组参数弹窗 -->
+<script type="text/html" id="groupOptionEditTpl">
+    <div id="groupOptionEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <!--<div class="rowElem">
+                <label class="item-title" for="name">修改密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>-->
+            <div class="rowElem">
+                <label class="item-title" for="GroBatNum">每组电池数: </label>
+                <input class="input-w-1" type="text" disabled key="GroBatNum" />
+                <label class="item-title" for="CurRange">组电流量程: </label>
+                <input class="input-w-1" type="text" key="CurRange" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="KI">组电流系数: </label>
+                <input class="input-w-1" type="text" key="KI" />
+                <label class="item-title" for="ZeroCurADC">组电流零位: </label>
+                <input class="input-w-1" type="text" key="ZeroCurADC" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="DisChaLim_R">组放电电流超上限_红: </label>
+                <input class="input-w-1" type="text" key="DisChaLim_R" />
+                <label class="item-title" for="DisChaLim_O">组放电电流将达上限_橙: </label>
+                <input class="input-w-1" type="text" key="DisChaLim_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="DisChaLim_Y">组放电电流偏高_黄: </label>
+                <input class="input-w-1" type="text" key="DisChaLim_Y" />
+                <label class="item-title" for="ChaLim_R">组充电电流超上限_红: </label>
+                <input class="input-w-1" type="text" key="ChaLim_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="ChaLim_O">组充电电流将达上限_橙: </label>
+                <input class="input-w-1" type="text" key="ChaLim_O" />
+                <label class="item-title" for="ChaLim_Y">组充电电流偏高_黄: </label>
+                <input class="input-w-1" type="text" key="ChaLim_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxTem_R">组温度超上限_红: </label>
+                <input class="input-w-1" type="text" key="MaxTem_R" />
+                <label class="item-title" for="MaxTem_O">组温度将达上限_橙: </label>
+                <input class="input-w-1" type="text" key="MaxTem_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxTem_Y">组温度偏高_黄: </label>
+                <input class="input-w-1" type="text" key="MaxTem_Y" />
+                <label class="item-title" for="MinTem_R">组温度超下限_红: </label>
+                <input class="input-w-1" type="text" key="MinTem_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MinTem_O">组温度将达下限_橙: </label>
+                <input class="input-w-1" type="text" key="MinTem_O" />
+                <label class="item-title" for="MinTem_Y">组温度偏低_黄: </label>
+                <input class="input-w-1" type="text" key="MinTem_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="ChaCriterion">组充放电判据: </label>
+                <input class="input-w-1" type="text" key="ChaCriterion" />
+                <input type="hidden" key="sn_key" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="password">*</i>修改或编辑密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 电池参数弹窗 -->
+<script type="text/html" id="baterryOptionEditTpl">
+    <div id="baterryOptionEditTpl-dialog" class="dialog">
+        <form class="jqtransform">
+            <input type="hidden" key="sn_key" />
+            <div class="rowElem">
+                <label class="item-title" for="KV">电压系数: </label>
+                <input class="input-w-1" type="text" key="KV" />
+                <label class="item-title" for="KT">温度系数: </label>
+                <input class="input-w-1" type="text" key="KT" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="KI">激励电流系数: </label>
+                <input class="input-w-1" type="text" key="KI" />
+                <label class="item-title" for="T0">T0校准温度: </label>
+                <input class="input-w-1" type="text" key="T0" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="ADC_T0">T0温度码: </label>
+                <input class="input-w-1" type="text" key="ADC_T0" />
+                <label class="item-title" for="T1">T1校准温度: </label>
+                <input class="input-w-1" type="text" key="T1" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="ADC_T1">T1温度码: </label>
+                <input class="input-w-1" type="text" key="ADC_T1" />
+                <label class="item-title" for="MaxU_R">电池电压超上限_红: </label>
+                <input class="input-w-1" type="text" key="MaxU_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxU_O">电池电压将达上限_橙: </label>
+                <input class="input-w-1" type="text" key="MaxU_O" />
+                <label class="item-title" for="MaxU_Y">电池电压偏高_黄: </label>
+                <input class="input-w-1" type="text" key="MaxU_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MinU_R">电池电压超下限_红: </label>
+                <input class="input-w-1" type="text" key="MinU_R" />
+                <label class="item-title" for="MinU_O">电池电压将达下限_橙: </label>
+                <input class="input-w-1" type="text" key="MinU_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MinU_Y">电池电压偏低_黄: </label>
+                <input class="input-w-1" type="text" key="MinU_Y" />
+                <label class="item-title" for="MaxT_R">电池温度超上限_红: </label>
+                <input class="input-w-1" type="text" key="MaxT_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxT_O">电池温度将达上限_橙: </label>
+                <input class="input-w-1" type="text" key="MaxT_O" />
+                <label class="item-title" for="MaxT_Y">电池温度偏高_黄: </label>
+                <input class="input-w-1" type="text" key="MaxT_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MinT_R">电池温度超下限_红: </label>
+                <input class="input-w-1" type="text" key="MinT_R" />
+                <label class="item-title" for="MinT_O">电池温度将达下限_橙: </label>
+                <input class="input-w-1" type="text" key="MinT_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MinT_Y">电池温度偏低_黄: </label>
+                <input class="input-w-1" type="text" key="MinT_Y" />
+                <label class="item-title" for="MaxR_R">电池内阻超上限_红: </label>
+                <input class="input-w-1" type="text" key="MaxR_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxR_O">电池内阻将达上限_橙: </label>
+                <input class="input-w-1" type="text" key="MaxR_O" />
+                <label class="item-title" for="MaxR_Y">电池内阻偏高_黄: </label>
+                <input class="input-w-1" type="text" key="MaxR_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxDevU_R">电池电压偏差_红: </label>
+                <input class="input-w-1" type="text" key="MaxDevU_R" />
+                <label class="item-title" for="MaxDevU_O">电池电压偏差_橙: </label>
+                <input class="input-w-1" type="text" key="MaxDevU_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxDevU_Y">电池电压偏差_黄: </label>
+                <input class="input-w-1" type="text" key="MaxDevU_Y" />
+                <label class="item-title" for="MaxDevT_R">电池温度偏差_红: </label>
+                <input class="input-w-1" type="text" key="MaxDevT_R" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxDevT_O">电池温度偏差_橙: </label>
+                <input class="input-w-1" type="text" key="MaxDevT_O" />
+                <label class="item-title" for="MaxDevT_Y">电池温度偏差_黄: </label>
+                <input class="input-w-1" type="text" key="MaxDevT_Y" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxDevR_R">电池内阻偏差_红: </label>
+                <input class="input-w-1" type="text" key="MaxDevR_R" />
+                <label class="item-title" for="MaxDevR_O">电池内阻偏差_橙: </label>
+                <input class="input-w-1" type="text" key="MaxDevR_O" />
+            </div>
+            <div class="rowElem">
+                <label class="item-title" for="MaxDevR_Y">电池内阻偏差_黄: </label>
+                <input class="input-w-1" type="text" key="MaxDevR_Y" />
+
+            </div>
+            <div class="rowElem">
+                <label class="item-title"><i class="mast-fill" for="password">*</i>修改或编辑密码: </label>
+                <input class="input-w-1" type="password" key="password" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+            <input type="button" class="cancel-btn btn" value="取消"/>
+        </div>
+    </div>
+</script>
+<!-- 其他参数 -->
+<script type="text/html" id="otherOptionEditTpl-tpl">
+    <div id="otherOptionEdit" class="dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="name">刷新频率全部为20秒: </label>
+                <!-- <input class="input-w-1" type="text" key="refresh" /> -->
+                <label><input type="checkbox" name="refresh" key="refresh">是</label>
+                <div style="display: none">
+                <label style="display: none;" class="item-title" for="name">通信软件采集频率(秒): </label>
+                <input style="display: none;" class="input-w-1" type="text" key="collection"/>
+                </div>
+           </div>
+            <div class="rowElem">
+                <label class="item-title" for="name">是否显示地图页面: </label>
+                <label><input type="checkbox" name="dismap" key="dismap" specify-value="1|0">显示</label>
+           </div>
+           <div class="rowElem">
+
+                <label class="item-title" for="name">灯光报警: </label>
+                <label><input type="checkbox" name="light" key="light_on_off" specify-value="1|0">开</label>
+                <label class="item-title" for="name">声音报警: </label>
+                <label><input type="checkbox" name="voice" key="voice_on_off" specify-value="1|0">开</label>
+                <label class="item-title" for="name">短信: </label>
+                <label><input type="checkbox" name="sms" key="sms_on_off" specify-value="1|0">开</label>
+                <label class="item-title" for="name">邮件: </label>
+                <label><input type="checkbox" name="email" key="email_on_off" specify-value="1|0">开</label>
+           </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定" id="saveOtherOptionBtn"/>
+        </div>
+    </div>
+</script>
+
+<!-- 站信息弹窗模板 -->
+<script type="text/html" id="stationinfoTpl">
+    <div id="stationinfoTpl-dialog" class="dialog">
+        <table cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th width="">站名</th>
+                <th width="">站号</th>
+                <th width="">地址</th>
+                <th width="">固定电话</th>
+                <th width="">负责人</th>
+                <th width="">电话</th>
+                <th width="">紧急联系人</th>
+                <th width="">电话</th>
+                <th width="">UPS联系人</th>
+                <th width="">电话</th>
+                <th width="">BMS联系人</th>
+                <th width="">电话</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="form-btns">
+            <input type="button" class="goto-detail btn" value="站详情"/>
+        </div>
+    </div>
+</script>
+
+<!-- 关于弹窗模板 -->
+<script type="text/html" id="aboutTpl">
+    <div id="aboutTpl-dialog" class="dialog">
+        <div>
+            <label>生产厂家:</label>
+            <span><%=bms_company%></span>
+        </div>
+        <div>
+            <label>厂家地址:</label>
+            <span><%=bms_device_addr%></span>
+        </div>
+        <div>
+            <label>邮编:</label>
+            <span><%=bms_postcode%></span>
+        </div>
+        <div>
+            <label>支持网址:</label>
+            <span><a href="<%=bms_url %>" target="_blank"><%=bms_url%></a></span>
+        </div>
+        <div>
+            <label>支持固话:</label>
+            <span><%=bms_tel%></span>
+        </div>
+        <div>
+            <label>手机:</label>
+            <span><%=bms_phone%></span>
+        </div>
+        <div>
+            <label>服务商名称:</label>
+            <span><%=bms_service_name%></span>
+        </div>
+        <div>
+            <label>服务商电话:</label>
+            <span><%=bms_service_phone%></span>
+        </div>
+        <div>
+            <label>服务商联系人:</label>
+            <span><%=bms_service_contact%></span>
+        </div>
+        <div>
+            <label>服务商地址:</label>
+            <span><%=bms_service_url%></span>
+        </div>
+        <div>
+            <label>软件版本号:</label>
+            <span><%=bms_version%></span>
+        </div>
+        <div>
+            <label>软件升级记录:</label>
+            <span><%=bms_update_mark%></span>
+        </div>
+    </div>
+</script>
+
+
+<!-- 强采密码 -->
+<script type="text/html" id="collectPswdDialogTpl">
+    <div id="collectPswdDialogTpl-dialog">
+        <form class="jqtransform">
+            <div class="rowElem">
+                <label class="item-title" for="name">请输入采集密码: </label>
+                <input class="input-w-1" type="text" key="pass" />
+            </div>
+        </form>
+        <div class="form-btns">
+            <input type="button" class="submit-btn btn" value="确定"/>
+        </div>
+    </div>
+</script>
+
+<audio preload="auto" id="alertmusic" hidden loop>
+    <source src="images/alert.mp3" />
+    <source src="images/alert.ogg" />
+</audio>

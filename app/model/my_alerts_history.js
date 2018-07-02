@@ -28,7 +28,7 @@ module.exports = app => {
       defaultValue: '0'
     },
     time: {
-      type: DataTypes.TIME,
+      type: DataTypes.CHAR(100),
       allowNull: true
     },
     markup: {

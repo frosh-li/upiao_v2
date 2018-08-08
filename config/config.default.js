@@ -9,10 +9,31 @@ module.exports = appInfo => {
     // add your config here
     config.middleware = [];
     config.security = {
+        domainWhiteList: [ 'http://localhost:8000' ],
         csrf:{
+            enable: false,
+            ignoreJSON: true,
+        },
+        methodnoallow: {
             enable: false,
         }
     };
+
+    config.middleware = [
+        'auth'
+    ];
+
+    config.auth = {
+        enable: true,
+        ignore: '/api_v2/login/account'
+    }
+
+    config.cors = {
+        origin:"http://localhost:8000",
+        allowMethod: "GET,HEAD,PUT,POST,DELETE,PATCH",
+        credentials: true,
+    };
+
     config.sockets = {
         client: {
             host:"127.0.0.1",
@@ -26,7 +47,7 @@ module.exports = appInfo => {
     };
     config.sequelize = {
         dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
-        database: 'db_bms_english4',
+        database: 'qingda_v2',
         host: 'localhost',
         port: '3306',
         username: 'root',
@@ -34,6 +55,25 @@ module.exports = appInfo => {
         define: {
 			timestamps: false
 		}
+    };
+
+    config.redis = {
+        client: {
+            port: 6379,
+            host: '127.0.0.1',
+            password: '',
+            db: 0,
+        },
+        agent:true,
+    };
+
+    exports.mongo = {
+        client:{
+            host: '127.0.0.1',
+            port: 27017,
+            name: 'bms',
+        }
+
     };
 
     return config;

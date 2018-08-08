@@ -3,7 +3,7 @@
 module.exports = app => {
   const DataTypes = app.Sequelize;
 
-  const Model = app.model.define('systemalarm', {
+  const Model = app.model.define('collect', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -14,25 +14,29 @@ module.exports = app => {
       type: DataTypes.BIGINT,
       allowNull: true
     },
-    sid: {
-      type: DataTypes.STRING(255),
+    groupid: {
+      type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    desc: {
-      type: DataTypes.TEXT,
+    batteryid: {
+      type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    tips: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    record_time: {
+    collect_time: {
       type: DataTypes.TIME,
       allowNull: true,
       defaultValue: DataTypes.literal('CURRENT_TIMESTAMP')
+    },
+    R: {
+      type: DataTypes.FLOAT,
+      allowNull: true
+    },
+    collect_endtime: {
+      type: DataTypes.TIME,
+      allowNull: true
     }
   }, {
-    tableName: 'systemalarm'
+    tableName: 'collect'
   });
 
   Model.associate = function() {

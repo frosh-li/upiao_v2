@@ -3,36 +3,31 @@
 module.exports = app => {
   const DataTypes = app.Sequelize;
 
-  const Model = app.model.define('systemalarm', {
+  const Model = app.model.define('report_log', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    stationid: {
-      type: DataTypes.BIGINT,
-      allowNull: true
-    },
-    sid: {
+    report_type: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    desc: {
-      type: DataTypes.TEXT,
+    report_table: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
-    tips: {
-      type: DataTypes.TEXT,
+    report_index: {
+      type: DataTypes.STRING(11),
       allowNull: true
     },
-    record_time: {
-      type: DataTypes.TIME,
-      allowNull: true,
-      defaultValue: DataTypes.literal('CURRENT_TIMESTAMP')
+    report_path: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
-    tableName: 'systemalarm'
+    tableName: 'report_log'
   });
 
   Model.associate = function() {

@@ -54,7 +54,7 @@ class SiteService extends Service {
     /**
      * 列表页面获取站点列表
      */
-    async filter(search_key="", areaid="", page=1, limit=15) {
+    async filter(search_key="", areaid="", page=1, limit=20) {
         const {Station, Tree} = this.app.model;
         Station.belongsTo(Tree, {foreignKey:'aid', targetKey: 'id'})
         let where = {};

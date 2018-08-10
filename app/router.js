@@ -40,4 +40,10 @@ module.exports = app => {
     router.post('/api_v2/station/add', controller.station.createOrUpdate);
     // 修改站点信息
     router.post('/api_v2/station', controller.station.createOrUpdate);
+
+    // 电池信息列表
+    router.get('/api_v2/battery_info', controller.batteryinfo.index);
+
+    // UPS信息列表
+    router.get('/api_v2/ups_info', controller.upsinfo.index);
 };

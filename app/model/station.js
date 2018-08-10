@@ -117,7 +117,6 @@ module.exports = app => {
     },
     create_time: {
       type: DataTypes.DATE,
-      allowNull: false
     },
     fix_phone: {
       type: DataTypes.STRING(100),

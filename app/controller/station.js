@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 
-class SiteController extends Controller {
+class StationController extends Controller {
 
     async newstations() {
         const {ctx, app} = this;
@@ -33,45 +33,35 @@ class SiteController extends Controller {
 
     async createOrUpdate() {
         const {ctx, app} = this;
-        let createSite = await ctx.service.site.createOrUpdate(ctx.request.body);
-        if(createSite && createSite.length === 2 && createSite[0].id > 0){
-            // 创建成功
+        try{
+            console.log(ctx.request.body);
+            let createSite = await ctx.service.site.createOrUpdate(ctx.request.body);
             ctx.body = {
-                response: {
-                    code: 0,
-                    msg:'ok',
-                    data: {
-                        id: createSite[0].id,
-                        sid: ctx.request.body.sid,
-                        site_name: ctx.request.body.site_name,
-                    }
-                }
+                status: true,
             }
-        }else{
+        }catch(e) {
+            console.log(e);
             // 创建失败
             ctx.body = {
-                response: {
-                    code: -1,
-                    msg: '操作失败'
-                }
+                status:false,
+                msg: e.message,
             }
         }
+
     }
 
     async index() {
         let pageSize = 10;
         const {ctx, app} = this;
-        let ids = ctx.request.body.id.split(",");
-        let page=ctx.request.body.page || 1;
-        ids.forEach((item,index) => {
-            ids[index] = item*10000;
-        })
-        let sites = await ctx.service.site.findById(ids,page,pageSize);
+        let search_key = ctx.query.search_key; //  模糊搜索，同时匹配名称 sid 和 fullname
+        let aid = ctx.query.aid || ""; // 搜索区域检索
+
+        let page=ctx.query.page || 1;
+
+        let sites = await ctx.service.site.filter(search_key, aid ,page ,pageSize);
+
         ctx.body = {
-            response: {
-                code: 0,
-                msg:"ok",
-            },
+            status: true,
             data: {
                 list: sites.rows,
                 page: page,
@@ -81,4 +71,4 @@ class SiteController extends Controller {
     }
 }
 
-module.exports = SiteController;
+module.exports = StationController;

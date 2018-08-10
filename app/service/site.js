@@ -14,18 +14,24 @@ class SiteService extends Service {
      * 1.校验密码
      */
     async createOrUpdate(obj) {
-        const {MySite} = this.app.model;
-        // site_chname没有使用到，后期从数据表中删除
-        obj.site_chname = obj.StationFullChineseName;
-        obj.aid = obj.area;
+        const {Station, UpsInfo, BatteryInfo} = this.app.model;
+        return this.app.model.transaction((t) => {
+            return Promise.all([
+                Station.create(obj.station, {transaction: t}),
 
-        let res = await MySite.findOrCreate({
-            where: {
-                serial_number: obj.serial_number
-            },
-            defaults: obj
-        });
-        return res;
+                UpsInfo.create(Object.assign(obj.ups_info,{
+                    sn_key: obj.station.sn_key,
+                    create_time: new Date(),
+                    update_time: new Date(),
+                }), {transaction: t}),
+
+                BatteryInfo.create(Object.assign(obj.battery_info,{
+                    sn_key: obj.station.sn_key,
+                    create_time: new Date(),
+                    update_time: new Date(),
+                }),{transaction: t})
+            ])
+        })
     }
 
     async findById(ids, page, limit) {
@@ -43,6 +49,54 @@ class SiteService extends Service {
         });
 
         return res;
+    }
+
+    /**
+     * 列表页面获取站点列表
+     */
+    async filter(search_key="", areaid="", page=1, limit=15) {
+        const {Station, Tree} = this.app.model;
+        Station.belongsTo(Tree, {foreignKey:'aid', targetKey: 'id'})
+        let where = {};
+        if(search_key) {
+            where = {
+                '$or': [
+                    {
+                        station_name: {
+                            '$like':`%${search_key}%`,
+                        },
+                    },
+                    {
+                        station_full_name:{
+                            '$like':`%${search_key}%`,
+                        },
+                    },
+                    {
+                        sid: search_key
+                    }
+                ]
+            }
+        }
+
+        if(areaid) {
+            where.aid = {
+                '$in': areaid.split(",")
+            }
+        }
+
+        let res = await Station.findAndCountAll({
+            where: where,
+            limit: limit,
+            offset: (page-1)*limit,
+            include: [
+                {
+                    model: Tree,
+                }
+            ]
+        });
+
+        return res;
+
     }
 }
 

@@ -20,7 +20,7 @@ module.exports = app => {
     router.get('/api/trees/getnav', controller.tree.getnav);
 
     // 待添加站
-    router.get('/api/sites/newstations', controller.site.newstations);
+    router.get('/api/sites/newstations', controller.station.newstations);
 
     // 获取树结构
     router.get('/api_v2/trees/', controller.tree.index);
@@ -35,9 +35,9 @@ module.exports = app => {
     router.get('/api_v2/currentUser', controller.user.currentUser);
 
     // 站点列表
-    router.post('/api/sites', controller.site.index);
+    router.get('/api_v2/station', controller.station.index);
     // 新增站点
-    router.post('/api/sites/create', controller.site.createOrUpdate);
+    router.post('/api_v2/station/add', controller.station.createOrUpdate);
     // 修改站点信息
-    router.post('/api/sites/update', controller.site.createOrUpdate);
+    router.post('/api_v2/station', controller.station.createOrUpdate);
 };

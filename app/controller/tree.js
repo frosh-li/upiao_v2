@@ -13,6 +13,7 @@ class TreeController extends Controller {
                     title: node.title,
                     key: 'node-'+node.id,
                     children: this.parseNode(tree, node.id, ++level),
+                    value: node.id.toString(),
                 })
             }
         });
@@ -32,6 +33,7 @@ class TreeController extends Controller {
                 outTree.push({
                     title: node.title,
                     key: 'node-'+node.id,
+                    value: node.id.toString(),
                     children: this.parseNode(tree, node.id, 1),
                 })
                 return;
@@ -58,6 +60,7 @@ class TreeController extends Controller {
                     title: node.title,
                     key: 'node-'+node.id,
                     children: this.parseNode(tree, node.id, 1),
+                    value: node.id.toString(),
                 })
                 return;
             }

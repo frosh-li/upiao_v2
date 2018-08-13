@@ -36,14 +36,17 @@ module.exports = app => {
 
     // 站点列表
     router.get('/api_v2/station', controller.station.index);
+    // 根据ID获取站详情
+    router.get('/api_v2/station_by_id', controller.station.stationById);
     // 新增站点
     router.post('/api_v2/station/add', controller.station.createOrUpdate);
     // 修改站点信息
-    router.post('/api_v2/station', controller.station.createOrUpdate);
+    router.post('/api_v2/station', controller.station.update);
 
     // 电池信息列表
     router.get('/api_v2/battery_info', controller.batteryinfo.index);
-
+    router.post('/api_v2/battery_info', controller.batteryinfo.update);
     // UPS信息列表
     router.get('/api_v2/ups_info', controller.upsinfo.index);
+    router.post('/api_v2/ups_info', controller.upsinfo.update);
 };

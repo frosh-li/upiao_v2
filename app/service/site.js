@@ -34,6 +34,15 @@ class SiteService extends Service {
         })
     }
 
+    async update(obj) {
+        const {Station} = this.app.model;
+        return Station.update(obj, {
+            where: {
+                sn_key: obj.sn_key
+            }
+        })
+    }
+
     async findById(ids, page, limit) {
         const {MySite} = this.app.model;
         let where = {};
@@ -49,6 +58,36 @@ class SiteService extends Service {
         });
 
         return res;
+    }
+
+    async stationById(id)  {
+        const {Station, UpsInfo, BatteryInfo} = this.app.model;
+        Station.belongsTo(UpsInfo, {foreignKey: 'sn_key', targetKey: 'sn_key'});
+        Station.belongsTo(BatteryInfo, {foreignKey: 'sn_key', targetKey: 'sn_key'});
+        let data = Station.findOne({
+            include: [
+                {
+                    model: UpsInfo,
+
+                },{
+                    model: BatteryInfo,
+
+                }
+            ],
+            where: {
+                '$or': [
+                    {
+                        id: id,
+                    },
+                    {
+                        sn_key: id
+                    }
+                ]
+
+            }
+        });
+        console.log(data);
+        return data;
     }
 
     /**

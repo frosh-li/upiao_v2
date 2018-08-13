@@ -5,7 +5,7 @@ module.exports = app => {
 
   const Model = app.model.define('battery_info', {
     sn_key: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.STRING(100),
       allowNull: false,
       primaryKey: true
     },

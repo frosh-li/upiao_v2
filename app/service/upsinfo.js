@@ -57,6 +57,15 @@ class UpsinfoService extends Service {
         return res;
 
     }
+
+    async update(obj) {
+        const {UpsInfo} = this.app.model;
+        return UpsInfo.update(obj, {
+            where: {
+                sn_key: obj.sn_key
+            }
+        })
+    }
 }
 
 module.exports = UpsinfoService;

@@ -50,6 +50,24 @@ class StationController extends Controller {
 
     }
 
+    async update() {
+        const {ctx, app} = this;
+        try{
+            console.log(ctx.request.body);
+            let createSite = await ctx.service.site.update(ctx.request.body);
+            ctx.body = {
+                status: true,
+            }
+        }catch(e) {
+            console.log(e);
+            // 创建失败
+            ctx.body = {
+                status:false,
+                msg: e.message,
+            }
+        }
+    }
+
     async index() {
         let pageSize = 20;
         const {ctx, app} = this;
@@ -67,6 +85,28 @@ class StationController extends Controller {
                 page: page,
                 pageSize:pageSize
             }
+        }
+    }
+
+    async stationById() {
+        const {ctx, app} = this;
+        let id = ctx.query.id;
+        let data = await ctx.service.site.stationById(id);
+
+        data = JSON.parse(JSON.stringify(data));
+        console.log(data);
+        let ret = {
+            //station: data,
+            upsinfo: Object.assign({},data.ups_info),
+            batteryinfo: Object.assign({},data.battery_info),
+        };
+        delete data.ups_info;
+        delete data.battery_info;
+        ret.station = Object.assign({},data);
+
+        ctx.body = {
+            status: true,
+            data: ret
         }
     }
 }

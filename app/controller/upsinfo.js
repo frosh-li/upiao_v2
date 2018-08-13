@@ -23,6 +23,24 @@ class UpsinfoController extends Controller {
             }
         }
     }
+
+    async update() {
+        const {ctx, app} = this;
+        try{
+            console.log(ctx.request.body);
+            let updateups = await ctx.service.upsinfo.update(ctx.request.body);
+            ctx.body = {
+                status: true,
+            }
+        }catch(e) {
+            console.log(e);
+            // 创建失败
+            ctx.body = {
+                status:false,
+                msg: e.message,
+            }
+        }
+    }
 }
 
 module.exports = UpsinfoController;

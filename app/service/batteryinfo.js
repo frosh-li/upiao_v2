@@ -57,6 +57,15 @@ class BatteryinfoService extends Service {
         return res;
 
     }
+
+    async update(obj) {
+        const {BatteryInfo} = this.app.model;
+        return BatteryInfo.update(obj, {
+            where: {
+                sn_key: obj.sn_key
+            }
+        })
+    }
 }
 
 module.exports = BatteryinfoService;

@@ -6,7 +6,7 @@ class TreeController extends Controller {
 
     parseNode(tree, pid, level) {
         let ret = [];
-        console.log(tree, pid, level);
+
         tree.forEach(node => {
             if(node.pid === pid) {
                 ret.push({
@@ -80,7 +80,7 @@ class TreeController extends Controller {
     async saveTreeNode() {
         const {ctx, app} = this;
         let {key, value} = ctx.request.body;
-        console.log(key,value);
+        
         if(!key || !value) {
             ctx.body = {
                 status: false,

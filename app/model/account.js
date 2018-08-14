@@ -7,7 +7,8 @@ module.exports = app => {
     id: {
       type: DataTypes.INTEGER(10),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      unique: true
     },
     phone: {
       type: DataTypes.INTEGER(11),
@@ -25,7 +26,7 @@ module.exports = app => {
     gender: {
       type: DataTypes.STRING(2),
       allowNull: true,
-      defaultValue: '?'
+      defaultValue: '男'
     },
     role: {
       type: DataTypes.INTEGER(1),

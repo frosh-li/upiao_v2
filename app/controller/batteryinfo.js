@@ -18,6 +18,7 @@ class BatteryinfoController extends Controller {
             status: true,
             data: {
                 list: data.rows,
+                totals: data.count,
                 page: page,
                 pageSize:pageSize
             }

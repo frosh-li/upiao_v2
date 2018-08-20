@@ -5,9 +5,9 @@ module.exports = app => {
 
   const Model = app.model.define('account', {
     id: {
-      type: DataTypes.INTEGER(10),
-      allowNull: false,
-      primaryKey: true
+        type: DataTypes.INTEGER(10),
+        primaryKey: true,
+        autoIncrement: true
     },
     rolename: {
       type: DataTypes.STRING(100),

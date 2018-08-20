@@ -90,6 +90,123 @@ class SiteService extends Service {
         return data;
     }
 
+    async getCounts(user) {
+        const {Station, Tree} = this.app.model;
+        Station.belongsTo(Tree, {foreignKey:'aid', targetKey: 'id'})
+        let where = {};
+
+        if(user.manage_station !== "*") {
+            where.aid = {
+                '$in': user.manage_station.split(",")
+            }
+        }
+
+        let totalStations = await Station.findAndCountAll(
+            {
+                where: where,
+                attributes: ['sn_key'],
+            }
+        ); // 获取总站数
+
+        console.log('totalStations', totalStations);
+
+        let onlineKeys = [];
+        let totalCautionKeys = [];
+        let _totalStations = JSON.parse(JSON.stringify(totalStations));
+        _totalStations.rows.forEach(item => {
+            onlineKeys.push(`realtime:station:${item.sn_key}`);
+            totalCautionKeys.push(`caution:${item.sn_key}`);
+        });
+
+        let redisData = await Promise.all([
+            this.app.redis.exists(onlineKeys),
+            this.app.redis.mget(totalCautionKeys),
+        ]);
+        let cautionCounts = 0;
+        console.log(redisData[1]);
+        if(redisData[1]){
+            let data = redisData[1];
+            data.forEach(item => {
+                if(!item){
+                    return;
+                }
+                try {
+                     let data = JSON.parse(item);
+                     cautionCounts += data.length;
+
+                }catch(e){
+                    console.log(e.message);
+                }
+            })
+        }
+
+        return {
+            totalStations: _totalStations.count,
+            onlineStations: redisData[0],
+            cautions: cautionCounts
+        }
+    }
+
+    async getRealtime(user) {
+        const {Station, Tree} = this.app.model;
+        Station.belongsTo(Tree, {foreignKey:'aid', targetKey: 'id'})
+        let where = {};
+
+        if(user.manage_station !== "*") {
+            where.aid = {
+                '$in': user.manage_station.split(",")
+            }
+        }
+
+        let totalStations = await Station.findAndCountAll(
+            {
+                where: where,
+                attributes: ['sn_key', 'station_name'],
+            }
+        ); // 获取总站数
+
+        console.log('totalStations', totalStations);
+
+        let onlineKeys = [];
+        let totalCautionKeys = [];
+        let _totalStations = JSON.parse(JSON.stringify(totalStations));
+        _totalStations.rows.forEach(item => {
+            onlineKeys.push(`realtime:station:${item.sn_key}`);
+            totalCautionKeys.push(`caution:${item.sn_key}`);
+        });
+
+        let redisData = await Promise.all([
+            this.app.redis.mget(onlineKeys),
+            this.app.redis.mget(totalCautionKeys),
+        ]);
+        let cautionCounts = 0;
+        let ret = [];
+        if(redisData[0]){
+            let data = redisData[0];
+            
+            data.forEach((item, index) => {
+                if(!item){
+                    return;
+                }
+                try {
+                     let data = JSON.parse(item);
+                     ret.push({
+                         sn_key: data.sn_key,
+                         Temperature: data.Temperature,
+                         Humidity: data.Humidity,
+                         Capacity: data.Capacity,
+                         station_name: _totalStations.rows[index]['station_name'],
+                         hasCaution: redisData[1][index] ? true : false,
+                     })
+                }catch(e){
+                    console.log(e.message);
+                }
+            })
+        }
+
+        return ret
+    }
+
     /**
      * 列表页面获取站点列表
      */

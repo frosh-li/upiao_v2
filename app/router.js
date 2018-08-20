@@ -74,4 +74,10 @@ module.exports = app => {
 
     // 参数列表
     router.get('/api_v2/param', controller.param.index); // egg-socket 冲突所以使用这个名字，egg-socket中已经使用了paramter service
+
+    // 获取在线硬站数量
+    router.get('/api_v2/connects', controller.station.connects);
+
+    // 获取dashboard的实时数据
+    router.get('/api_v2/realtime', controller.station.realtime);
 };

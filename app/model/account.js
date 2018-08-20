@@ -8,7 +8,7 @@ module.exports = app => {
       type: DataTypes.INTEGER(10),
       allowNull: false,
       primaryKey: true,
-      unique: true
+      autoIncrement: true
     },
     phone: {
       type: DataTypes.INTEGER(11),

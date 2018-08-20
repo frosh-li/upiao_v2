@@ -69,12 +69,13 @@ class StationController extends Controller {
     }
 
     async index() {
-        let pageSize = 20;
+
         const {ctx, app} = this;
+
         let search_key = ctx.query.search_key; //  模糊搜索，同时匹配名称 sid 和 fullname
         let aid = ctx.query.aid || ""; // 搜索区域检索
-
-        let page=ctx.query.page || 1;
+        let pageSize = +ctx.query.pageSize || 20;
+        let page= +ctx.query.page || 1;
 
         let sites = await ctx.service.site.filter(search_key, aid ,page ,pageSize);
 
@@ -83,7 +84,8 @@ class StationController extends Controller {
             data: {
                 list: sites.rows,
                 page: page,
-                pageSize:pageSize
+                pageSize:pageSize,
+                totals: sites.count,
             }
         }
     }
@@ -107,6 +109,27 @@ class StationController extends Controller {
         ctx.body = {
             status: true,
             data: ret
+        }
+    }
+
+    // 获取连接站数和站总数,报警数等
+    async connects() {
+        const {ctx, app} = this;
+        let data = await ctx.service.site.getCounts(ctx.session);
+        console.log(data);
+        ctx.body = {
+            status: true,
+            data: data,
+        }
+    }
+
+    async realtime() {
+        const {ctx, app} = this;
+        let data = await ctx.service.site.getRealtime(ctx.session);
+        console.log(data);
+        ctx.body = {
+            status: true,
+            data: data,
         }
     }
 }

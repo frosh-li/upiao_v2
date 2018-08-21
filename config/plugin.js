@@ -31,5 +31,10 @@ exports.cors = {
     package: 'egg-cors',
 };
 
+exports.assets = {
+  enable: true,
+  package: 'egg-view-assets',
+};
+
 // had enabled by egg
 // exports.static = true;

@@ -4,7 +4,7 @@ const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
     async index() {
-        this.ctx.redirect('/public/index.html');
+        await this.ctx.render('index.js');
     }
 }
 

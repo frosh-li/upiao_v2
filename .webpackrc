@@ -1,0 +1,27 @@
+{
+  "entry": "app/assets/index.js",
+  "extraBabelPlugins": [
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
+  ],
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr"
+      ]
+    }
+  },
+  "ignoreMomentLocale": true,
+  "theme": "./app/assets/theme.js",
+  "html": {
+    "template": "./app/assets/index.ejs"
+  },
+  "alias": {
+    "components": "./app/assets/components/"
+  },
+  "disableDynamicImport": true,
+  "outputPath": "app/public",
+  "hash": true,
+  "manifest": {
+    "fileName": "../../config/manifest.json"
+  }
+}

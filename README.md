@@ -73,3 +73,13 @@ $ npm stop
         { ResistorVal: [ { sn_key: '1161106105', bid:10, gid: 2, Resistor: 10.6 } ] }
     2、站数据、电池数据、组数据去掉sn_key后面的组号和电池号的4位
     3、心跳包  去掉后四位  <{"sn_key":22222222220000,"sid":222}>
+
+
+### 组合ant-design pro和eggjs
+
+    1、合并package.json npm install
+    2、npm install egg-view-assets
+    3、配置roadhog和egg-view-assets
+    4、在app目录下新建assets目录，讲ant-design中src的文件全部拷贝过来
+    5、拷贝.roadhogrc.mock.js 到根目录
+    6、配置.webpackrc文件

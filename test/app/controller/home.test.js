@@ -4,18 +4,36 @@ const { app, assert } = require('egg-mock/bootstrap');
 
 describe('test/app/controller/home.test.js', () => {
 
-  it('should assert', function* () {
-    const pkg = require('../../../package.json');
-    assert(app.config.keys.startsWith(pkg.name));
+    it('自动批量添加站点1000个', async()=> {
+        const ctx = app.mockContext({});
 
-    // const ctx = app.mockContext({});
-    // yield ctx.service.xx();
-  });
-
-  it('should GET /', () => {
-    return app.httpRequest()
-      .get('/')
-      .expect('hi, egg')
-      .expect(200);
-  });
+        let start=117;
+        let sn_key_start = 17;
+        async function autoAdd() {
+            if(sn_key_start > 1014){
+                console.log('全部添加结束');
+                return;
+            }
+            let data =  await ctx.service.site.stationById(302);
+            data = JSON.parse(JSON.stringify(data));
+            data.sid = start;
+            data.station_name = "自动站点"+sn_key_start;
+            data.sn_key = '100000' + sn_key_start.toString().padStart(3, "0");
+            data.ups_info.sn_key = data.battery_info.sn_key = data.sn_key;
+            let ups_info = Object.assign({},data.ups_info);
+            let battery_info = Object.assign({},data.battery_info);
+            delete data.ups_info;
+            delete data.battery_info;
+            let res = await ctx.service.site.createOrUpdate({
+                station: data,
+                ups_info: ups_info,
+                battery_info: battery_info,
+            })
+            console.log('添加完成', data.station_name);
+            start++;
+            sn_key_start++;
+            await autoAdd();
+        }
+        await autoAdd();
+    });
 });

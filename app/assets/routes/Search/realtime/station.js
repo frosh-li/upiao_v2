@@ -119,6 +119,7 @@ export default class StationPage extends Component {
             if(!values || !values.aid) {
                 values.aid = [];
             }
+            let dateranger = "";
             if(!values || !values.dateranger) {
                 dateranger = ""
             }else{

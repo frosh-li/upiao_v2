@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import  SettingBattery  from '../../Settings/batteryInfo/battery';
+import  SettingUps  from '../../../Settings/upsInfo/ups';
 import moment from 'moment';
-export default class BatteryPage extends Component {
+export default class UpsPage extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <SettingBattery
+            <SettingUps
                 searchPage={true}
             />
         )

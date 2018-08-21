@@ -108,7 +108,6 @@ class SiteService extends Service {
             }
         ); // 获取总站数
 
-        console.log('totalStations', totalStations);
 
         let onlineKeys = [];
         let totalCautionKeys = [];
@@ -123,7 +122,7 @@ class SiteService extends Service {
             this.app.redis.mget(totalCautionKeys),
         ]);
         let cautionCounts = 0;
-        console.log(redisData[1]);
+
         if(redisData[1]){
             let data = redisData[1];
             data.forEach(item => {
@@ -183,7 +182,7 @@ class SiteService extends Service {
         let ret = [];
         if(redisData[0]){
             let data = redisData[0];
-            
+
             data.forEach((item, index) => {
                 if(!item){
                     return;
@@ -205,6 +204,107 @@ class SiteService extends Service {
         }
 
         return ret
+    }
+
+    async getHistory(user,dateranger= "",table="station_data", search_key="", areaid="", page=1, limit=20) {
+        const {Station, Tree, UpsInfo, BatteryInfo} = this.app.model;
+        Station.belongsTo(Tree, {foreignKey:'aid', targetKey: 'id'})
+        Station.belongsTo(UpsInfo, {foreignKey:'sn_key', targetKey: 'sn_key'})
+        Station.belongsTo(BatteryInfo, {foreignKey:'sn_key', targetKey: 'sn_key'})
+        let where = {};
+        if(search_key) {
+            where = {
+                '$or': [
+                    {
+                        station_name: {
+                            '$like':`%${search_key}%`,
+                        },
+                    },
+                    {
+                        station_full_name:{
+                            '$like':`%${search_key}%`,
+                        },
+                    },
+                    {
+                        sid: search_key
+                    }
+                ]
+            }
+        }
+
+        if(areaid) {
+            where.aid = {
+                '$in': areaid.split(",")
+            }
+        }else{
+            if(user.manage_station !== "*") {
+                where.aid = {
+                    '$in': user.manage_station.split(",")
+                }
+            }
+        }
+
+        let totalStations = await Station.findAll(
+            {
+                where: where,
+                attributes: ['sn_key', 'station_name', 'sid'],
+                include: [
+                    {
+                        model: UpsInfo,
+                        attributes: ['ups_maintain_date', 'ups_power', 'ups_max_discharge', 'ups_max_charge']
+                    }
+                ]
+            }
+        ); // 获取总站数
+        let sn_key_mapTo_station_name = {};
+        let sn_keys = [];
+
+        let _totalStations = JSON.parse(JSON.stringify(totalStations));
+        console.log(_totalStations);
+        _totalStations.forEach(item => {
+            sn_keys.push(item.sn_key);
+            sn_key_mapTo_station_name[item.sn_key] = item;
+        });
+
+        let mongoQuery = {};
+
+        if(sn_keys.length > 0){
+            mongoQuery['sn_key'] = {
+                $in: sn_keys
+            }
+        }
+
+        if(dateranger) {
+            mongoQuery['record_time'] = {
+                $gte: dateranger.split(",")[0],
+                $lte: dateranger.split(',')[1],
+            }
+        }
+
+        let data = await this.app.mongo.db.collection(table).find(mongoQuery).sort({
+            record_time:-1
+        }).skip(limit*(page-1)).limit(limit).toArray();
+
+        data = data.map(item => {
+            item.station_name = sn_key_mapTo_station_name[item.sn_key].station_name;
+            item.ups_power = sn_key_mapTo_station_name[item.sn_key].ups_info.ups_power;
+            item.ups_maintain_date = sn_key_mapTo_station_name[item.sn_key].ups_info.ups_maintain_date;
+            item.sid = sn_key_mapTo_station_name[item.sn_key].sid;
+            return item;
+        })
+
+        console.log('datas', data);
+        let totals = await this.app.mongo.db.collection(table).countDocuments({
+            sn_key: {
+                $in: sn_keys
+            }
+        });
+        console.log('totals', totals);
+
+        return {
+            rows: data,
+            count: totals,
+        }
     }
 
     /**

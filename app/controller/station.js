@@ -132,6 +132,29 @@ class StationController extends Controller {
             data: data,
         }
     }
+
+    async history() {
+        const {ctx, app} = this;
+
+        let search_key = ctx.query.search_key; //  模糊搜索，同时匹配名称 sid 和 fullname
+        let aid = ctx.query.aid || ""; // 搜索区域检索
+        let pageSize = +ctx.query.pageSize || 20;
+        let page= +ctx.query.page || 1;
+        let dateranger = ctx.query.dateranger || "";
+        let table = ctx.query.table || "station_data";
+
+        let data = await ctx.service.site.getHistory(ctx.session, dateranger,table,search_key, aid,page,pageSize);
+        console.log(data);
+        ctx.body = {
+            status: true,
+            data: {
+                list: data.rows,
+                page: page,
+                pageSize:pageSize,
+                totals: data.count,
+            },
+        }
+    }
 }
 
 module.exports = StationController;

@@ -153,70 +153,24 @@ export const getRouterData = app => {
     },
     // 搜索相关
     '/search/baseinfo/station': {
-       component: dynamicWrapper(app, ['station'], () => import('../routes/Search/station/station')),
+       component: dynamicWrapper(app, ['station'], () => import('../routes/Search/baseinfo/station/station')),
     },
     '/search/baseinfo/battery': {
-       component: dynamicWrapper(app, ['batteryinfo'], () => import('../routes/Search/battery/battery')),
+       component: dynamicWrapper(app, ['batteryinfo'], () => import('../routes/Search/baseinfo/battery/battery')),
     },
     '/search/baseinfo/upsinfo': {
-       component: dynamicWrapper(app, ['upsinfo'], () => import('../routes/Search/ups/ups')),
+       component: dynamicWrapper(app, ['upsinfo'], () => import('../routes/Search/baseinfo/ups/ups')),
     },
-    // '/form/basic-form': {
-    //   component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
-    // },
-    // '/form/step-form': {
-    //   component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm')),
-    // },
-    // '/form/step-form/info': {
-    //   name: '分步表单（填写转账信息）',
-    //   component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
-    // },
-    // '/form/step-form/confirm': {
-    //   name: '分步表单（确认转账信息）',
-    //   component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
-    // },
-    // '/form/step-form/result': {
-    //   name: '分步表单（完成）',
-    //   component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
-    // },
-    // '/form/advanced-form': {
-    //   component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
-    // },
-    // '/list/table-list': {
-    //   component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
-    // },
-    // '/list/basic-list': {
-    //   component: dynamicWrapper(app, ['list'], () => import('../routes/List/BasicList')),
-    // },
-    // '/list/card-list': {
-    //   component: dynamicWrapper(app, ['list'], () => import('../routes/List/CardList')),
-    // },
-    // '/list/search': {
-    //   component: dynamicWrapper(app, ['list'], () => import('../routes/List/List')),
-    // },
-    // '/list/search/projects': {
-    //   component: dynamicWrapper(app, ['list'], () => import('../routes/List/Projects')),
-    // },
-    // '/list/search/applications': {
-    //   component: dynamicWrapper(app, ['list'], () => import('../routes/List/Applications')),
-    // },
-    // '/list/search/articles': {
-    //   component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
-    // },
-    // '/profile/basic': {
-    //   component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
-    // },
-    // '/profile/advanced': {
-    //   component: dynamicWrapper(app, ['profile'], () =>
-    //     import('../routes/Profile/AdvancedProfile')
-    //   ),
-    // },
-    // '/result/success': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
-    // },
-    // '/result/fail': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/Result/Error')),
-    // },
+    '/search/station': {
+       component: dynamicWrapper(app, ['realtime'], () => import('../routes/Search/realtime/station')),
+    },
+    '/search/group': {
+       component: dynamicWrapper(app, ['realtime'], () => import('../routes/Search/realtime/group')),
+    },
+    '/search/battery': {
+       component: dynamicWrapper(app, ['realtime'], () => import('../routes/Search/realtime/battery')),
+    },
+
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },
@@ -237,15 +191,6 @@ export const getRouterData = app => {
     '/user/login': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
     },
-    '/user/register': {
-      component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
-    },
-    '/user/register-result': {
-      component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
-    },
-    // '/user/:id': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
-    // },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

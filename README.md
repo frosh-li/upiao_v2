@@ -83,3 +83,4 @@ $ npm stop
     4、在app目录下新建assets目录，讲ant-design中src的文件全部拷贝过来
     5、拷贝.roadhogrc.mock.js 到根目录
     6、配置.webpackrc文件
+    7、components的引入方式修改

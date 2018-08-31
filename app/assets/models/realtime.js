@@ -1,4 +1,4 @@
-import { queryRealtime, queryHistory} from '../services/api';
+import { queryRealtime, queryHistory, queryCautions} from '../services/api';
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 
@@ -7,6 +7,7 @@ export default {
 
   state: {
     status: false,
+    cautions: [],
     list: [],
     roleList: [],
     userList: [],
@@ -32,7 +33,15 @@ export default {
             type: 'saveHistory',
             payload: response
         })
+    },
+    *cautions({payload, callback}, {call, put}) {
+        const response = yield call(queryCautions, payload);
+        yield put({
+            type: 'saveCautions',
+            payload: response
+        })
     }
+
   },
 
   reducers: {
@@ -41,6 +50,17 @@ export default {
         ...state,
         list: action.payload.data,
       };
+    },
+    saveCautions(state, action) {
+        return {
+          ...state,
+          cautions: action.payload.data.list,
+          pagination: {
+              currentPage: action.payload.data.page,
+              pageSize: action.payload.data.pageSize,
+              total: action.payload.data.totals,
+          }
+        };
     },
     saveHistory(state, action) {
       return {

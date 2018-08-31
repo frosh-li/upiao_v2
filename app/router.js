@@ -82,4 +82,6 @@ module.exports = app => {
     router.get('/api_v2/realtime', controller.station.realtime);
 
     router.get('/api_v2/history', controller.station.history);
+
+    router.get('/api_v2/realtime/cautions', controller.station.cautions);
 };

@@ -15,7 +15,7 @@ import styles from './realtime.less';
 @connect(({ realtime,areatree, loading }) => ({
     realtime,
     areatree,
-    loading: loading.models.list,
+    loading: loading.models.realtime,
 }))
 export default class StationPage extends Component {
 

@@ -99,6 +99,9 @@ export const getRouterData = app => {
      '/realtime/realtime-map/': {
         component: dynamicWrapper(app, ['realtime'], () => import('../routes/realtime/realtimeMap')),
      },
+     '/realtime/realtime-caution/': {
+        component: dynamicWrapper(app, ['realtime'], () => import('../routes/realtime/realtimeCaution')),
+     },
      // 设置相关
      '/setting/baseinfo/battery-list/battery': {
         component: dynamicWrapper(app, ['batteryinfo'], () => import('../routes/Settings/batteryInfo/battery')),

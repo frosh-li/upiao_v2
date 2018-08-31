@@ -136,6 +136,12 @@ export async function queryHistory(params) {
   });
 }
 
+export async function queryCautions(params) {
+  return request(`http://127.0.0.1:7001/api_v2/realtime/cautions?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
 
 // 修改某单个节点
 export async function updateStation(params) {

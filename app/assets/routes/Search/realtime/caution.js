@@ -22,26 +22,17 @@ export default class StationPage extends Component {
     static defaultProps = {
         searchPage: false,
         columns: [
-
-            { dataIndex: "station_name", key: "station_name",title:"站名",width:200,fixed: 'left', },
-            { dataIndex: "sid", key: "sid","title":"站号",width:80 ,fixed: 'left',},
-            { dataIndex: "gid", key: "gid","title":"组号",width:80 ,fixed: 'left',},
-            { dataIndex: "mid", key: "mid","title":"电池号",width:100 ,fixed: 'left',},
-            { dataIndex: "Voltage", key: "Voltage",title:"电压V",width:80 },
-            { dataIndex: "Temperature", key: "Temperature",title:"温度℃",width:80 },
-            { dataIndex: "Resistor", key: "Resistor",title:"内阻mΩ",width:120 },
-            { dataIndex: "Dev_U", key: "Dev_U",title:"电压偏离",width:150, render: function(data){return Math.abs(data).toFixed(2)} },
-            { dataIndex: "Dev_T", key: "Dev_T",title:"温度偏离",width:150, render: function(data){return Math.abs(data).toFixed(2)} },
-            { dataIndex: "Dev_R", key: "Dev_R",title:"内阻偏离",width:150, render: function(data){return Math.abs(data).toFixed(2)} },
-            { dataIndex: "Lifetime", key: "Lifetime",title:"电池寿命%",width:150 },
-            { dataIndex: "Capacity", key: "Capacity",title:"容量%",width:150 },
-            { dataIndex: "record_time", key: "record_time",title:"时间",width:300 },
-            // { dataIndex: "MaxU_R", key: "MaxU_R",title:"浮充上限V",width:150 },
-            // { dataIndex: "MaxDevU_R", key: "MaxDevU_R",title:"浮充偏差V",width:150 },
-            // { dataIndex: "MinU_R", key: "MinU_R",title:"放电下限V",width:150 },
-            // { dataIndex: "MaxT_R", key: "MaxT_R",title:"温度上限℃",width:150 },
-            // { dataIndex: "MinT_R", key: "MinT_R",title:"温度下限℃",width:150 },
-            // { dataIndex: "MaxR_R", key: "MaxR_R",title:"内阻上限mΩ",width:150 }
+            { dataIndex: "station_name", key: "station_name",title:"站名",width:150, align:"center"},
+            { dataIndex: "sid", key: "sid","title":"站号",width:80, align:"center"},
+            { dataIndex: "gid", key: "gid","title":"组号",width:80, align:"center"},
+            { dataIndex: "mid", key: "mid","title":"电池号",width:80, align:"center"},
+            { dataIndex: "time", key: "time",title:"时间",width:300, align:"center" },
+            { dataIndex: "desc", key: "desc",title:"警情内容",width:300, align:"center" },
+            { dataIndex: "current", key: "current",title:"数值",width:120, align:"center"},
+            { dataIndex: "climit", key: "climit",title:"参考值",width:120, align:"center" },
+            { dataIndex: "markup", key: "markup",title:"操作记录",width:300, align:"center" },
+            { dataIndex: "contact", key: "contact",title:"操作记录",width:120, align:"center" },
+            { dataIndex: "markuptime", key: "markuptime",title:"操作记录",width:300, align:"center" },
         ]
     }
 
@@ -61,7 +52,7 @@ export default class StationPage extends Component {
         this.fetchTree();
     }
 
-    fetchMore(payload = {table: "battery_data"}) {
+    fetchMore(payload = {}) {
         const { dispatch } = this.props;
         console.log('search pay load',payload);
         dispatch({
@@ -84,7 +75,7 @@ export default class StationPage extends Component {
 
     handleReset = () => {
         this.props.form.resetFields();
-        this.search_payload = {table: "battery_data"};
+        this.search_payload = {};
         this.fetchMore(this.search_payload);
     }
 
@@ -109,11 +100,12 @@ export default class StationPage extends Component {
                 ].join(",")
             }
             let params = {
-                table: 'battery_data',
+                table: 'station_data',
                 aid: values.aid.join(","),
                 search_key: values.search_key,
                 dateranger: dateranger,
             }
+
             this.search_payload = params;
             this.fetchMore(this.search_payload);
             console.log('Received values of form: ', params);
@@ -281,7 +273,7 @@ export default class StationPage extends Component {
                     size="default"
                     onChange={this.onChange}
                     pagination={paginationProps}
-                    scroll={{ x: 1790 - x }}>
+                    scroll={{ x: 2000-130*6+160+80+150 - x }}>
                 </Table>
 
             </div>

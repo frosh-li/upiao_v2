@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
 import moment from 'moment';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
-import { Tree, Input, Button, Modal,message, Form, Row, Col, Icon, TreeSelect, Table,Menu, Dropdown, Pagination, DatePicker} from 'antd';
+import { Tree, Input, Button, Modal,message, Form, Row, Col, Icon, TreeSelect, Table,Menu, Dropdown, Pagination, DatePicker, Tabs} from 'antd';
+const TabPane = Tabs.TabPane;
 const {TreeNode} = Tree;
 const confirm = Modal.confirm;
 const ButtonGroup = Button.Group;
@@ -17,33 +18,18 @@ import styles from './realtime.less';
     areatree,
     loading: loading.models.realtime,
 }))
-export default class StationPage extends Component {
+export default class CautionPage extends Component {
 
-    static defaultProps = {
-        searchPage: false,
-        columns: [
-
-            { dataIndex: "station_name", key: "station_name",title:"站名",width:200,fixed: 'left', },
-            { dataIndex: "sid", key: "sid","title":"站号",width:80 ,fixed: 'left',},
-            { dataIndex: "gid", key: "gid","title":"组号",width:80 ,fixed: 'left',},
-            { dataIndex: "mid", key: "mid","title":"电池号",width:100 ,fixed: 'left',},
-            { dataIndex: "Voltage", key: "Voltage",title:"电压V",width:80 },
-            { dataIndex: "Temperature", key: "Temperature",title:"温度℃",width:80 },
-            { dataIndex: "Resistor", key: "Resistor",title:"内阻mΩ",width:120 },
-            { dataIndex: "Dev_U", key: "Dev_U",title:"电压偏离",width:150, render: function(data){return Math.abs(data).toFixed(2)} },
-            { dataIndex: "Dev_T", key: "Dev_T",title:"温度偏离",width:150, render: function(data){return Math.abs(data).toFixed(2)} },
-            { dataIndex: "Dev_R", key: "Dev_R",title:"内阻偏离",width:150, render: function(data){return Math.abs(data).toFixed(2)} },
-            { dataIndex: "Lifetime", key: "Lifetime",title:"电池寿命%",width:150 },
-            { dataIndex: "Capacity", key: "Capacity",title:"容量%",width:150 },
-            { dataIndex: "record_time", key: "record_time",title:"时间",width:300 },
-            // { dataIndex: "MaxU_R", key: "MaxU_R",title:"浮充上限V",width:150 },
-            // { dataIndex: "MaxDevU_R", key: "MaxDevU_R",title:"浮充偏差V",width:150 },
-            // { dataIndex: "MinU_R", key: "MinU_R",title:"放电下限V",width:150 },
-            // { dataIndex: "MaxT_R", key: "MaxT_R",title:"温度上限℃",width:150 },
-            // { dataIndex: "MinT_R", key: "MinT_R",title:"温度下限℃",width:150 },
-            // { dataIndex: "MaxR_R", key: "MaxR_R",title:"内阻上限mΩ",width:150 }
-        ]
-    }
+    station_columns = [
+        { dataIndex: "station_name", key: "station_name",title:"站名",width:150, align:"center"},
+        { dataIndex: "sid", key: "sid","title":"站号",width:80, align:"center"},
+        { dataIndex: "gid", key: "gid","title":"组号",width:80, align:"center"},
+        { dataIndex: "mid", key: "mid","title":"电池号",width:100, align:"center"},
+        { dataIndex: "time", key: "time",title:"时间",width:300, align:"center" },
+        { dataIndex: "desc", key: "desc",title:"警情内容",width:300, align:"center" },
+        { dataIndex: "current", key: "current",title:"数值",width:120, align:"center"},
+        { dataIndex: "climit", key: "climit",title:"参考值",width:120, align:"center" },
+    ]
 
     constructor(props) {
         super(props);
@@ -54,24 +40,18 @@ export default class StationPage extends Component {
 
     search_payload = {}
 
-
-
     componentDidMount() {
         this.fetchMore();
         this.fetchTree();
     }
 
-    fetchMore(payload = {table: "battery_data"}) {
+    fetchMore(payload = {}) {
         const { dispatch } = this.props;
         console.log('search pay load',payload);
         dispatch({
-            type: 'realtime/fetchHistory',
+            type: 'realtime/cautions',
             payload: payload,
         });
-    }
-
-    handleAction = (data) => {
-        console.log('handle action', data);
     }
 
     fetchTree() {
@@ -84,7 +64,7 @@ export default class StationPage extends Component {
 
     handleReset = () => {
         this.props.form.resetFields();
-        this.search_payload = {table: "battery_data"};
+        this.search_payload = {};
         this.fetchMore(this.search_payload);
     }
 
@@ -99,21 +79,12 @@ export default class StationPage extends Component {
             if(!values || !values.aid) {
                 values.aid = [];
             }
-            let dateranger = "";
-            if(!values || !values.dateranger) {
-                dateranger = ""
-            }else{
-                dateranger = [
-                    values.dateranger[0].format('YYYY-MM-DD HH:mm:ss'),
-                    values.dateranger[1].format('YYYY-MM-DD HH:mm:ss'),
-                ].join(",")
-            }
+
             let params = {
-                table: 'battery_data',
                 aid: values.aid.join(","),
                 search_key: values.search_key,
-                dateranger: dateranger,
             }
+
             this.search_payload = params;
             this.fetchMore(this.search_payload);
             console.log('Received values of form: ', params);
@@ -146,7 +117,7 @@ export default class StationPage extends Component {
         );
 
         children.push(
-            <Col span={8} key="1">
+            <Col span={16} key="1">
               <FormItem label='所属区域'>
                     {getFieldDecorator(`aid`, {
                     })(
@@ -156,7 +127,6 @@ export default class StationPage extends Component {
                         treeCheckable={true}
                         treeData = {this.props.areatree.list}
                         value={this.state.aid}
-
                         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                         placeholder="选择区域"
                         allowClear
@@ -169,32 +139,10 @@ export default class StationPage extends Component {
             </Col>
         );
 
-        children.push(
-            <Col span={8} key="2">
-              <FormItem label='站名/站号'>
-                {getFieldDecorator(`dateranger`, {
-                })(
-                    <RangePicker
-                        locale={locale}
-                        showTime={{ format: 'HH:mm' }}
-                        format="YYYY-MM-DD HH:mm"
-                        placeholder={['开始时间', '结束时间']}
-                      />
-                )}
-              </FormItem>
-            </Col>
-        );
-
         return children;
     }
 
-    addNewStation = () => {
-        const {dispatch} = this.props;
-        dispatch(routerRedux.push('/setting/baseinfo/station-list/create'));
-    }
-
     renderBtns = () => {
-
         return (
             <Fragment>
                 <Button style={{ marginLeft: 8 }} type="primary" htmlType="submit">查询</Button>
@@ -210,21 +158,21 @@ export default class StationPage extends Component {
 
         const { dispatch } = this.props;
         let params = this.search_payload;
-        dispatch({
-            type: 'realtime/fetchHistory',
-            payload: {
-                ...params,
-                page: pagination.current,
-                pageSize: pagination.pageSize,
-            },
-        });
+        // dispatch({
+        //     type: 'realtime/cautions',
+        //     payload: {
+        //         ...params,
+        //         page: pagination.current,
+        //         pageSize: pagination.pageSize,
+        //     },
+        // });
 
     }
 
     render() {
         const {
           realtime: {
-              history: data,
+              cautions: data,
               pagination: pagination,
           },
           loading,
@@ -236,24 +184,6 @@ export default class StationPage extends Component {
             showQuickJumper: true,
             ...pagination,
         };
-
-        console.log('render columns', this.props.columns);
-        let x = 0;
-        this.columns = [];
-        if(this.props.searchPage === true) {
-            this.props.columns.forEach((item) => {
-                if(item.key === 'operators'){
-                    return;
-                }else{
-                    this.columns.push(item);
-                }
-            })
-            x = 100
-        }else {
-            this.columns = this.props.columns;
-        }
-
-
 
         return (
             <div>
@@ -276,12 +206,12 @@ export default class StationPage extends Component {
                     style={{marginTop:'20px','backgroundColor': '#fff'}}
                     rowKey="_id"
                     loading={loading}
-                    columns={this.columns}
+                    columns={this.station_columns}
                     dataSource={data}
                     size="default"
                     onChange={this.onChange}
                     pagination={paginationProps}
-                    scroll={{ x: 1790 - x }}>
+                    >
                 </Table>
 
             </div>

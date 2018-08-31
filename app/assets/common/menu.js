@@ -11,6 +11,10 @@ const menuData = [
                 path: 'realtime-map'
             },
             {
+                name: '实时警情',
+                path: 'realtime-caution',
+            },
+            {
                 name: '站实时数据',
                 path: 'station',
             },

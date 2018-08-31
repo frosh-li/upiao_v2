@@ -307,6 +307,82 @@ class SiteService extends Service {
         }
     }
 
+    async getRealtimeCaution(user,ctype= "" , search_key="", areaid="", page=1, limit=20) {
+        const {Station, Tree, StationAlertDesc} = this.app.model;
+        Station.belongsTo(Tree, {foreignKey:'aid', targetKey: 'id'})
+        // Station.belongsTo(StationAlertDesc, {foreignKey:'aid', targetKey: 'id'})
+
+        let where = {};
+        if(search_key) {
+            where = {
+                '$or': [
+                    {
+                        station_name: {
+                            '$like':`%${search_key}%`,
+                        },
+                    },
+                    {
+                        station_full_name:{
+                            '$like':`%${search_key}%`,
+                        },
+                    },
+                    {
+                        sid: search_key
+                    }
+                ]
+            }
+        }
+
+        if(areaid) {
+            where.aid = {
+                '$in': areaid.split(",")
+            }
+        }else{
+            if(user.manage_station !== "*") {
+                where.aid = {
+                    '$in': user.manage_station.split(",")
+                }
+            }
+        }
+
+        let totalStations = await Station.findAll(
+            {
+                where: where,
+                attributes: ['sn_key', 'station_name', 'sid'],
+            }
+        ); // 获取总站数
+        let sn_key_mapTo_station_name = {};
+        let totalCautionKeys = [];
+
+        let _totalStations = JSON.parse(JSON.stringify(totalStations));
+        console.log(_totalStations);
+        _totalStations.forEach(item => {
+            totalCautionKeys.push(`caution:${item.sn_key}`);
+            sn_key_mapTo_station_name[item.sn_key] = item;
+        });
+
+        let data = await this.app.redis.mget(totalCautionKeys);
+        let results = [];
+        data.forEach(item => {
+
+            item && JSON.parse(item).forEach(_item => {
+                results.push({
+                    ..._item,
+                    station_name: sn_key_mapTo_station_name[_item.sn_key].station_name,
+                    sid: sn_key_mapTo_station_name[_item.sn_key].sid,
+                })
+            })
+        })
+
+        console.log('datas', results);
+
+
+        return {
+            rows: results,
+            count: results.length,
+        }
+    }
+
     /**
      * 列表页面获取站点列表
      */

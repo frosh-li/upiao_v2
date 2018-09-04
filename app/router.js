@@ -80,6 +80,10 @@ module.exports = app => {
 
     // 获取dashboard的实时数据
     router.get('/api_v2/realtime', controller.station.realtime);
+    // 寿命最低的10个站图形
+    router.get('/api_v2/lifetime/top10', controller.station.lifetime);
+    // 容量最低的10个站图形
+    router.get('/api_v2/capacity/top10', controller.station.capacity);
 
     router.get('/api_v2/history', controller.station.history);
 

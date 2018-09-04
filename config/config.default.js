@@ -44,6 +44,7 @@ module.exports = appInfo => {
             clearRealData: '10s', // 清理实时数据时间间隔
             showSockets: '10s', // 显示sockets连接数的时间间隔
             insertCautionInterval: 1000*60*20, //插入历史数据间隔
+            expired: 60, // 过期时间为60秒，实时数据
         }
     };
     config.sequelize = {
@@ -83,8 +84,8 @@ module.exports = appInfo => {
             env: {
                 BROWSER: 'none',
                 DISABLE_ESLINT: true,
-                SOCKET_SERVER: 'http://127.0.0.1:8000',
-                PUBLIC_PATH: 'http://127.0.0.1:8000',
+                // SOCKET_SERVER: 'http://127.0.0.1:8000',
+                // PUBLIC_PATH: 'http://127.0.0.1:8000',
             },
             debug: true,
         }

@@ -130,6 +130,20 @@ export async function queryRealtime(params) {
   });
 }
 
+export async function queryRealtimeCapacity(params) {
+  return request(`http://127.0.0.1:7001/api_v2/capacity/top10?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function queryRealtimeLifetime(params) {
+  return request(`http://127.0.0.1:7001/api_v2/lifetime/top10?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+
+
 export async function queryHistory(params) {
   return request(`http://127.0.0.1:7001/api_v2/history?${stringify(params)}`, {
     method: 'GET',

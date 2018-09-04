@@ -133,6 +133,26 @@ class StationController extends Controller {
         }
     }
 
+    async lifetime() {
+        const {ctx, app} = this;
+        let data = await ctx.service.site.lifetime(ctx.session);
+        console.log(data);
+        ctx.body = {
+            status: true,
+            data: data,
+        }
+    }
+
+    async capacity() {
+        const {ctx, app} = this;
+        let data = await ctx.service.site.capacity(ctx.session);
+        console.log(data);
+        ctx.body = {
+            status: true,
+            data: data,
+        }
+    }
+
     async history() {
         const {ctx, app} = this;
 
@@ -142,16 +162,24 @@ class StationController extends Controller {
         let page= +ctx.query.page || 1;
         let dateranger = ctx.query.dateranger || "";
         let table = ctx.query.table || "station_data";
+        let startId = ctx.query.startId || "";
+        let startIndex = ctx.query.startIndex || 0;
+        let oldStartId = ctx.query.oldStartId || "";
+        let oldStartIndex = ctx.query.oldStartIndex || "";
 
-        let data = await ctx.service.site.getHistory(ctx.session, dateranger,table,search_key, aid,page,pageSize);
-        console.log(data);
+
+        let data = await ctx.service.site.getHistory(ctx.session, dateranger,table,search_key, aid,startId,startIndex,page,pageSize);
+        
         ctx.body = {
             status: true,
             data: {
                 list: data.rows,
-                page: page,
-                pageSize:pageSize,
-                totals: data.count,
+                startId: data.startId,
+                endId: data.endId,
+                startIndex: data.startIndex,
+                endIndex: data.endIndex,
+                oldStartId: oldStartId,
+                oldStartIndex: oldStartIndex,
             },
         }
     }

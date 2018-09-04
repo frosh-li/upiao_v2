@@ -44,7 +44,7 @@ export default class StationPage extends Component {
         aid: '',
     }
 
-    search_payload = {}
+    search_payload = {table: "group_data"}
 
 
 
@@ -197,39 +197,65 @@ export default class StationPage extends Component {
         )
     }
 
-    onChange = (pagination, filters, sorter) => {
-        console.log('onchange table', pagination, filters, sorter);
 
-        const { dispatch } = this.props;
+    pageNext = () =>{
+        const { dispatch, realtime: {
+            dataIndex: {
+                startId: startId,
+                endId: endId,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                oldStartId: oldStartId,
+                oldStartIndex: oldStartIndex,
+            }
+        } } = this.props;
         let params = this.search_payload;
         dispatch({
             type: 'realtime/fetchHistory',
             payload: {
                 ...params,
-                page: pagination.current,
-                pageSize: pagination.pageSize,
+                startId: endId,
+                startIndex: endIndex,
+                oldStartId: startId,
+                oldStartIndex: startIndex,
             },
         });
+    }
 
+    pagePrev = () =>{
+        const { dispatch, realtime: {
+            dataIndex: {
+                startId: startId,
+                endId: endId,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                oldStartId: oldStartId,
+                oldStartIndex: oldStartIndex,
+            }
+        } } = this.props;
+        let params = this.search_payload;
+        dispatch({
+            type: 'realtime/fetchHistory',
+            payload: {
+                ...params,
+                startId: oldStartId,
+                startIndex: oldStartIndex,
+
+            },
+        });
     }
 
     render() {
         const {
           realtime: {
               history: data,
-              pagination: pagination,
+              dataIndex: {
+                  startId: startId,
+              }
           },
           loading,
         } = this.props;
         console.log('data', data);
-
-        const paginationProps = {
-            showSizeChanger: true,
-            showQuickJumper: true,
-            ...pagination,
-        };
-
-        console.log('render columns', this.props.columns);
         let x = 0;
         this.columns = [];
         if(this.props.searchPage === true) {
@@ -266,15 +292,25 @@ export default class StationPage extends Component {
 
                 <Table
                     style={{marginTop:'20px','backgroundColor': '#fff'}}
-                    rowKey="_id"
+                    rowKey={(data) => {
+                        return data.sn_key+""+data.gid + ""+new Date(data.record_time)
+                    }}
                     loading={loading}
                     columns={this.columns}
                     dataSource={data}
                     size="default"
-                    onChange={this.onChange}
-                    pagination={paginationProps}
+                    pagination={false}
                     scroll={{ x: 1570 - x }}>
                 </Table>
+
+                <Button.Group size="large" style={{marginTop: '20px'}}>
+                  <Button disabled={startId == ""} onClick={this.pagePrev.bind(this)}>
+                    <Icon type="left" />上一页
+                  </Button>
+                  <Button disabled={data.length < 20} onClick={this.pageNext.bind(this)}>
+                    下一页<Icon type="right" />
+                  </Button>
+                </Button.Group>
 
             </div>
         );

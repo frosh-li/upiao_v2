@@ -68,8 +68,11 @@ export default class StationPage extends Component {
     constructor(props) {
         super(props);
     }
+
     state = {
         aid: '',
+        hasPrev: true,
+        hasNext: true,
     }
 
     search_payload = {}
@@ -83,7 +86,6 @@ export default class StationPage extends Component {
 
     fetchMore(payload = {}) {
         const { dispatch } = this.props;
-        console.log('search pay load',payload);
         dispatch({
             type: 'realtime/fetchHistory',
             payload: payload,
@@ -226,37 +228,62 @@ export default class StationPage extends Component {
         )
     }
 
-    onChange = (pagination, filters, sorter) => {
-        console.log('onchange table', pagination, filters, sorter);
 
-        const { dispatch } = this.props;
+
+    pageNext = () =>{
+        const { dispatch, realtime: {
+            dataIndex: {
+                startId: startId,
+                endId: endId,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                oldStartId: oldStartId,
+            }
+        } } = this.props;
         let params = this.search_payload;
         dispatch({
             type: 'realtime/fetchHistory',
             payload: {
                 ...params,
-                page: pagination.current,
-                pageSize: pagination.pageSize,
+                startId: endId,
+                startIndex: endIndex,
+                oldStartId: startId,
             },
         });
+    }
 
+    pagePrev = () =>{
+        const { dispatch, realtime: {
+            dataIndex: {
+                startId: startId,
+                endId: endId,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                oldStartId: oldStartId,
+            }
+        } } = this.props;
+        let params = this.search_payload;
+        dispatch({
+            type: 'realtime/fetchHistory',
+            payload: {
+                ...params,
+                startId: oldStartId,
+            },
+        });
     }
 
     render() {
         const {
           realtime: {
               history: data,
-              pagination: pagination,
+              dataIndex: {
+                  startId: startId,
+              }
           },
           loading,
         } = this.props;
         console.log('data', data);
 
-        const paginationProps = {
-            showSizeChanger: true,
-            showQuickJumper: true,
-            ...pagination,
-        };
 
         console.log('render columns', this.props.columns);
         let x = 0;
@@ -301,10 +328,17 @@ export default class StationPage extends Component {
                     dataSource={data}
                     size="default"
                     onChange={this.onChange}
-                    pagination={paginationProps}
+                    pagination={false}
                     scroll={{ x: 2000-130*6+160+80+150 - x }}>
                 </Table>
-
+                <Button.Group size="large" style={{marginTop: '20px'}}>
+                  <Button disabled={startId == ""} onClick={this.pagePrev.bind(this)}>
+                    <Icon type="left" />上一页
+                  </Button>
+                  <Button disabled={data.length < 20} onClick={this.pageNext.bind(this)}>
+                    下一页<Icon type="right" />
+                  </Button>
+                </Button.Group>
             </div>
         );
     }

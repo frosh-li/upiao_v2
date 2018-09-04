@@ -26,7 +26,7 @@ export default class StationPage extends Component {
             { dataIndex: "station_name", key: "station_name",title:"站名",width:200,fixed: 'left', },
             { dataIndex: "sid", key: "sid","title":"站号",width:80 ,fixed: 'left',},
             { dataIndex: "gid", key: "gid","title":"组号",width:80 ,fixed: 'left',},
-            { dataIndex: "mid", key: "mid","title":"电池号",width:100 ,fixed: 'left',},
+            { dataIndex: "bid", key: "bid","title":"电池号",width:100 ,fixed: 'left',},
             { dataIndex: "Voltage", key: "Voltage",title:"电压V",width:80 },
             { dataIndex: "Temperature", key: "Temperature",title:"温度℃",width:80 },
             { dataIndex: "Resistor", key: "Resistor",title:"内阻mΩ",width:120 },
@@ -52,7 +52,7 @@ export default class StationPage extends Component {
         aid: '',
     }
 
-    search_payload = {}
+    search_payload = {table: "battery_data"}
 
 
 
@@ -205,39 +205,63 @@ export default class StationPage extends Component {
         )
     }
 
-    onChange = (pagination, filters, sorter) => {
-        console.log('onchange table', pagination, filters, sorter);
-
-        const { dispatch } = this.props;
+    pageNext = () =>{
+        const { dispatch, realtime: {
+            dataIndex: {
+                startId: startId,
+                endId: endId,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                oldStartId: oldStartId,
+                oldStartIndex: oldStartIndex,
+            }
+        } } = this.props;
         let params = this.search_payload;
         dispatch({
             type: 'realtime/fetchHistory',
             payload: {
                 ...params,
-                page: pagination.current,
-                pageSize: pagination.pageSize,
+                startId: endId,
+                startIndex: endIndex,
+                oldStartId: startId,
+                oldStartIndex: startIndex,
             },
         });
+    }
 
+    pagePrev = () =>{
+        const { dispatch, realtime: {
+            dataIndex: {
+                startId: startId,
+                endId: endId,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                oldStartId: oldStartId,
+                oldStartIndex: oldStartIndex,
+            }
+        } } = this.props;
+        let params = this.search_payload;
+        dispatch({
+            type: 'realtime/fetchHistory',
+            payload: {
+                ...params,
+                startId: oldStartId,
+                startIndex: oldStartIndex,
+            },
+        });
     }
 
     render() {
         const {
           realtime: {
               history: data,
-              pagination: pagination,
+              dataIndex: {
+                  startId: startId,
+              }
           },
           loading,
         } = this.props;
-        console.log('data', data);
 
-        const paginationProps = {
-            showSizeChanger: true,
-            showQuickJumper: true,
-            ...pagination,
-        };
-
-        console.log('render columns', this.props.columns);
         let x = 0;
         this.columns = [];
         if(this.props.searchPage === true) {
@@ -274,16 +298,24 @@ export default class StationPage extends Component {
 
                 <Table
                     style={{marginTop:'20px','backgroundColor': '#fff'}}
-                    rowKey="_id"
+                    rowKey={(data) => {
+                        return data.sn_key+""+data.gid+""+data.bid + ""+new Date(data.record_time)
+                    }}
                     loading={loading}
                     columns={this.columns}
                     dataSource={data}
                     size="default"
-                    onChange={this.onChange}
-                    pagination={paginationProps}
+                    pagination={false}
                     scroll={{ x: 1790 - x }}>
                 </Table>
-
+                <Button.Group size="large" style={{marginTop: '20px'}}>
+                  <Button disabled={startId == ""} onClick={this.pagePrev.bind(this)}>
+                    <Icon type="left" />上一页
+                  </Button>
+                  <Button disabled={data.length < 20} onClick={this.pageNext.bind(this)}>
+                    下一页<Icon type="right" />
+                  </Button>
+                </Button.Group>
             </div>
         );
     }

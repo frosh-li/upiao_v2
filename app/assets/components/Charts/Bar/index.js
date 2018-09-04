@@ -33,12 +33,12 @@ class Bar extends Component {
     if (!this.node) {
       return;
     }
-    const canvasWidth = this.node.parentNode.clientWidth;
+    const canvasWidth = this.node.parentNode.clientWidth-50;
     const { data = [], autoLabel = true } = this.props;
     if (!autoLabel) {
       return;
     }
-    const minWidth = data.length * 30;
+    const minWidth = data.length * 20;
     const { autoHideXLabels } = this.state;
 
     if (canvasWidth <= minWidth) {

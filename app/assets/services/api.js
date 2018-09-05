@@ -1,65 +1,6 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
 
-export async function queryProjectNotice() {
-  return request('/api_v2/project/notice');
-}
-
-export async function queryActivities() {
-  return request('/api_v2/activities');
-}
-
-export async function queryRule(params) {
-  return request(`/api_v2/rule?${stringify(params)}`);
-}
-
-export async function removeRule(params) {
-  return request('/api_v2/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
-}
-
-export async function addRule(params) {
-  return request('/api_v2/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'post',
-    },
-  });
-}
-
-export async function fakeSubmitForm(params) {
-  return request('/api_v2/forms', {
-    method: 'POST',
-    body: params,
-  });
-}
-
-export async function fakeChartData() {
-  return request('/api_v2/fake_chart_data');
-}
-
-export async function queryTags() {
-  return request('/api_v2/tags');
-}
-
-export async function queryBasicProfile() {
-  return request('/api_v2/profile/basic');
-}
-
-export async function queryAdvancedProfile() {
-  return request('/api_v2/profile/advanced');
-}
-
-export async function queryFakeList(params) {
-  return request(`/api_v2/fake_list?${stringify(params)}`);
-}
-
 export async function fakeAccountLogin(params) {
   return request('http://127.0.0.1:7001/api_v2/login/account', {
     method: 'POST',
@@ -225,16 +166,4 @@ export async function updateStationAlertDesc(params) {
     method: 'POST',
     body: params
   });
-}
-
-
-export async function fakeRegister(params) {
-  return request('/api_v2/register', {
-    method: 'POST',
-    body: params,
-  });
-}
-
-export async function queryNotices() {
-  return request('/api_v2/notices');
 }

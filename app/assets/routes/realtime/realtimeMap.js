@@ -103,12 +103,12 @@ export default class RealtimeMapPage extends Component {
         let x_for_capacity = [];
         let x_for_lifetime = [];
 
-        capacityData.forEach((item) => {
+        capacityData && capacityData.forEach((item) => {
             capacity_data.push(+item.val);
             x_for_capacity.push(item.station_name);
         });
 
-        lifetimeData.forEach((item) => {
+        lifetimeData && lifetimeData.forEach((item) => {
             lifetime_data.push(+item.val);
             x_for_lifetime.push(item.station_name);
         });

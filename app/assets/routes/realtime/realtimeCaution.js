@@ -24,8 +24,8 @@ export default class CautionPage extends Component {
         { dataIndex: "station_name", key: "station_name",title:"站名",width:150, align:"center"},
         { dataIndex: "sid", key: "sid","title":"站号",width:80, align:"center"},
         { dataIndex: "gid", key: "gid","title":"组号",width:80, align:"center"},
-        { dataIndex: "mid", key: "mid","title":"电池号",width:100, align:"center"},
-        { dataIndex: "time", key: "time",title:"时间",width:300, align:"center" },
+        { dataIndex: "bid", key: "bid","title":"电池号",width:100, align:"center"},
+        { dataIndex: "record_time", key: "time",title:"时间",width:300, align:"center" },
         { dataIndex: "desc", key: "desc",title:"警情内容",width:300, align:"center" },
         { dataIndex: "current", key: "current",title:"数值",width:120, align:"center"},
         { dataIndex: "climit", key: "climit",title:"参考值",width:120, align:"center" },
@@ -204,7 +204,9 @@ export default class CautionPage extends Component {
 
                 <Table
                     style={{marginTop:'20px','backgroundColor': '#fff'}}
-                    rowKey="_id"
+                    rowKey={(data) => {
+                        return data.sn_key+data.gid+data.bid+data.code+data.record_time;
+                    }}
                     loading={loading}
                     columns={this.station_columns}
                     dataSource={data}

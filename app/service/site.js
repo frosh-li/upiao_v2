@@ -115,12 +115,23 @@ class SiteService extends Service {
         let _totalStations = JSON.parse(JSON.stringify(totalStations));
         if(user.manage_station !== "*") {
             user.manage_station.split(',').forEach(item => {
-                onlineKeys.push(`realtime:station:${item}:*`);
-                totalCautionKeys.push(`caution:${item}:*`);
+                onlineKeys.push(`realtime:station:${this.app.areamap[item]}:${item}`);
+                totalCautionKeys.push(`caution:${this.app.areamap[item]}:${item}`);
             })
         }else{
-            onlineKeys.push(`realtime:station:*`);
-            totalCautionKeys.push(`caution:*`);
+            onlineKeys = await this.app.redis.keys(`realtime:station:*`);
+            totalCautionKeys = await this.app.redis.keys(`caution:*`);
+        }
+
+        if(!onlineKeys || onlineKeys.length <= 0 || !totalCautionKeys || totalCautionKeys.length <= 0){
+            return {
+                totalStations: _totalStations.count,
+                onlineStations: 0,
+                cautions: 0,
+                caution_R: 0,
+                caution_Y: 0,
+                caution_O: 0,
+            }
         }
 
         let redisData = await Promise.all([
@@ -128,6 +139,10 @@ class SiteService extends Service {
             this.app.redis.mget(totalCautionKeys),
         ]);
         let cautionCounts = 0;
+
+        let caution_R = 0;
+        let caution_Y = 0;
+        let caution_O = 0;
 
         if(redisData[1]){
             let data = redisData[1];
@@ -137,8 +152,10 @@ class SiteService extends Service {
                 }
                 try {
                      let data = JSON.parse(item);
-                     cautionCounts += data.length;
-
+                     cautionCounts = cautionCounts + data.red + data.yellow + data.orange;
+                     caution_R += data.red;
+                     caution_Y += data.yellow;
+                     caution_O += data.orange;
                 }catch(e){
                     console.log(e.message);
                 }
@@ -148,7 +165,10 @@ class SiteService extends Service {
         return {
             totalStations: _totalStations.count,
             onlineStations: redisData[0],
-            cautions: cautionCounts
+            cautions: cautionCounts,
+            caution_R: caution_R,
+            caution_Y: caution_Y,
+            caution_O: caution_O,
         }
     }
 
@@ -178,7 +198,7 @@ class SiteService extends Service {
             }
         ); // 获取总站数
 
-        console.log('totalStations', totalStations);
+        //console.log('totalStations', totalStations);
 
         let onlineKeys = [];
         let totalCautionKeys = [];
@@ -260,7 +280,7 @@ class SiteService extends Service {
             }
         ); // 获取总站数
 
-        console.log('totalStations', totalStations);
+        // console.log('totalStations', totalStations);
 
         let onlineKeys = [];
         let totalCautionKeys = [];
@@ -338,7 +358,7 @@ class SiteService extends Service {
             }
         ); // 获取总站数
 
-        console.log('totalStations', totalStations);
+        // console.log('totalStations', totalStations);
 
         let onlineKeys = [];
         let totalCautionKeys = [];
@@ -657,6 +677,12 @@ class SiteService extends Service {
             }
         }
 
+        let _alertDesc = await StationAlertDesc.findAll();
+        let alertDesc = {};
+        JSON.parse(JSON.stringify(_alertDesc)).forEach(item => {
+            alertDesc[item.en] = item;
+        });
+
         let totalStations = await Station.findAll(
             {
                 where: where,
@@ -669,21 +695,34 @@ class SiteService extends Service {
         let _totalStations = JSON.parse(JSON.stringify(totalStations));
         console.log(_totalStations);
         _totalStations.forEach(item => {
-            totalCautionKeys.push(`caution:${item.sn_key}`);
+            totalCautionKeys.push(`caution:${this.app.areamap[item.sn_key]}:${item.sn_key}`);
             sn_key_mapTo_station_name[item.sn_key] = item;
         });
 
         let data = await this.app.redis.mget(totalCautionKeys);
         let results = [];
         data.forEach(item => {
+            try{
+                let _item = JSON.parse(item);
+                ['station','group','battery'].forEach(__item => {
+                    if(_item[__item] && _item[__item].length > 0) {
+                        _item[__item].forEach(oItem => {
+                            results.push({
+                                ...oItem,
+                                aid: _item.aid,
+                                record_time: _item.record_time,
+                                sn_key: _item.sn_key,
+                                desc: alertDesc[oItem.code].desc,
+                                station_name: sn_key_mapTo_station_name[_item.sn_key].station_name,
+                                sid: sn_key_mapTo_station_name[_item.sn_key].sid,
+                            })
+                        })
+                    }
 
-            item && JSON.parse(item).forEach(_item => {
-                results.push({
-                    ..._item,
-                    station_name: sn_key_mapTo_station_name[_item.sn_key].station_name,
-                    sid: sn_key_mapTo_station_name[_item.sn_key].sid,
                 })
-            })
+            }catch(e) {
+                console.log('unknow error', e.message);
+            }
         })
 
         console.log('datas', results);

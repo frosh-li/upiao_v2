@@ -10,7 +10,7 @@ module.exports = appInfo => {
     // add your config here
     config.middleware = [];
     config.security = {
-        domainWhiteList: [ 'http://localhost:8000' ],
+        domainWhiteList: [ '*' ],
         csrf:{
             enable: false,
             ignoreJSON: true,

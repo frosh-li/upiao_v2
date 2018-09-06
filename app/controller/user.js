@@ -8,7 +8,7 @@ class UserController extends Controller {
         const {ctx, app, logger} = this;
         const {phone, password} = ctx.request.body;
         let user = await ctx.service.user.find(phone, password);
-        logger.info('user info ', user)
+        // logger.info('user info ', user)
         if(user){
             ctx.session = JSON.parse(JSON.stringify(user));
             ctx.body = {
@@ -57,7 +57,7 @@ class UserController extends Controller {
         let page=ctx.query.page || 1;
 
         let data = await ctx.service.user.findAllByUser(ctx.session, 20*(page-1), 20);
-        console.log(data);
+        // console.log(data);
         ctx.body = {
             status: true,
             data: {

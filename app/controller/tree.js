@@ -80,7 +80,7 @@ class TreeController extends Controller {
     async saveTreeNode() {
         const {ctx, app} = this;
         let {key, value} = ctx.request.body;
-        
+
         if(!key || !value) {
             ctx.body = {
                 status: false,
@@ -101,7 +101,7 @@ class TreeController extends Controller {
     async addTreeNode() {
         const {ctx, app} = this;
         let {parentKey, value} = ctx.request.body;
-        console.log(parentKey,value);
+        // console.log(parentKey,value);
         if(!parentKey || !value) {
             ctx.body = {
                 status: false,
@@ -127,7 +127,7 @@ class TreeController extends Controller {
             return;
         }
         await ctx.service.tree.delete(+key.replace('node-',''));
-        console.log(key);
+        // console.log(key);
         ctx.body = {
             status: true,
         }

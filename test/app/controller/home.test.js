@@ -7,8 +7,8 @@ describe('test/app/controller/home.test.js', () => {
     it('自动批量添加站点1000个', async()=> {
         const ctx = app.mockContext({});
 
-        let start=117;
-        let sn_key_start = 17;
+        let start=1;
+        let sn_key_start = 1;
         async function autoAdd() {
             if(sn_key_start > 1014){
                 console.log('全部添加结束');
@@ -16,9 +16,10 @@ describe('test/app/controller/home.test.js', () => {
             }
             let data =  await ctx.service.site.stationById(302);
             data = JSON.parse(JSON.stringify(data));
+            delete data.id;
             data.sid = start;
             data.station_name = "自动站点"+sn_key_start;
-            data.sn_key = '100000' + sn_key_start.toString().padStart(3, "0");
+            data.sn_key = '300000' + sn_key_start.toString().padStart(3, "0");
             data.ups_info.sn_key = data.battery_info.sn_key = data.sn_key;
             let ups_info = Object.assign({},data.ups_info);
             let battery_info = Object.assign({},data.battery_info);

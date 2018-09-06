@@ -7,7 +7,7 @@ class StationController extends Controller {
     async newstations() {
         const {ctx, app} = this;
         let site = await ctx.service.site.newstations();
-        console.log(site);
+        // console.log(site);
         if(site){
             ctx.body = {
                 response: {
@@ -34,7 +34,7 @@ class StationController extends Controller {
     async createOrUpdate() {
         const {ctx, app} = this;
         try{
-            console.log(ctx.request.body);
+            // console.log(ctx.request.body);
             let createSite = await ctx.service.site.createOrUpdate(ctx.request.body);
             ctx.body = {
                 status: true,
@@ -53,7 +53,7 @@ class StationController extends Controller {
     async update() {
         const {ctx, app} = this;
         try{
-            console.log(ctx.request.body);
+            // console.log(ctx.request.body);
             let createSite = await ctx.service.site.update(ctx.request.body);
             ctx.body = {
                 status: true,
@@ -96,7 +96,7 @@ class StationController extends Controller {
         let data = await ctx.service.site.stationById(id);
 
         data = JSON.parse(JSON.stringify(data));
-        console.log(data);
+        // console.log(data);
         let ret = {
             //station: data,
             upsinfo: Object.assign({},data.ups_info),
@@ -116,7 +116,7 @@ class StationController extends Controller {
     async connects() {
         const {ctx, app} = this;
         let data = await ctx.service.site.getCounts(ctx.session);
-        console.log(data);
+        // console.log(data);
         ctx.body = {
             status: true,
             data: data,
@@ -126,7 +126,7 @@ class StationController extends Controller {
     async realtime() {
         const {ctx, app} = this;
         let data = await ctx.service.site.getRealtime(ctx.session);
-        console.log(data);
+        // console.log(data);
         ctx.body = {
             status: true,
             data: data,
@@ -136,7 +136,7 @@ class StationController extends Controller {
     async lifetime() {
         const {ctx, app} = this;
         let data = await ctx.service.site.lifetime(ctx.session);
-        console.log(data);
+        // console.log(data);
         ctx.body = {
             status: true,
             data: data,
@@ -146,7 +146,7 @@ class StationController extends Controller {
     async capacity() {
         const {ctx, app} = this;
         let data = await ctx.service.site.capacity(ctx.session);
-        console.log(data);
+        // console.log(data);
         ctx.body = {
             status: true,
             data: data,
@@ -169,7 +169,7 @@ class StationController extends Controller {
 
 
         let data = await ctx.service.site.getHistory(ctx.session, dateranger,table,search_key, aid,startId,startIndex,page,pageSize);
-        
+
         ctx.body = {
             status: true,
             data: {
@@ -194,7 +194,7 @@ class StationController extends Controller {
         let ctype = ctx.query.ctype || ""; // 警情类型 红黄橙和所有
 
         let data = await ctx.service.site.getRealtimeCaution(ctx.session, ctype,search_key, aid,page,pageSize);
-        console.log(data);
+        // console.log(data);
         ctx.body = {
             status: true,
             data: {

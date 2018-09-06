@@ -80,7 +80,7 @@ class SiteService extends Service {
 
             }
         });
-        console.log(data);
+        // console.log(data);
         return data;
     }
 
@@ -250,7 +250,7 @@ class SiteService extends Service {
 
             })
         }
-        console.log(ret);
+        // console.log(ret);
         return ret;
     }
 
@@ -328,7 +328,7 @@ class SiteService extends Service {
 
             })
         }
-        console.log(ret);
+        // console.log(ret);
         return ret;
     }
 
@@ -405,7 +405,7 @@ class SiteService extends Service {
 
             })
         }
-        console.log(ret);
+        // console.log(ret);
         return ret;
     }
 
@@ -694,7 +694,8 @@ class SiteService extends Service {
 
         let _totalStations = JSON.parse(JSON.stringify(totalStations));
         console.log(_totalStations);
-        _totalStations.forEach(item => {
+        _totalStations.forEach((item,index) => {
+
             totalCautionKeys.push(`caution:${this.app.areamap[item.sn_key]}:${item.sn_key}`);
             sn_key_mapTo_station_name[item.sn_key] = item;
         });
@@ -707,6 +708,10 @@ class SiteService extends Service {
                 ['station','group','battery'].forEach(__item => {
                     if(_item[__item] && _item[__item].length > 0) {
                         _item[__item].forEach(oItem => {
+                            if(results.length > 100) {
+                                // 最多只取100个站的数据
+                                return;
+                            }
                             results.push({
                                 ...oItem,
                                 aid: _item.aid,
@@ -725,7 +730,7 @@ class SiteService extends Service {
             }
         })
 
-        console.log('datas', results);
+        // console.log('datas', results);
 
 
         return {

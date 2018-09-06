@@ -31,7 +31,7 @@ function startClient(sn_key){
         interval_caution = setInterval(() => {
             // 30秒发送一次报警数据
             let cerrors = errors.replace(/{sn_key}/g, sn_key);
-            
+
             let hasCaution = Math.random();
             if(hasCaution > 0.5) {
                 console.log('发送错误信息',sn_key);

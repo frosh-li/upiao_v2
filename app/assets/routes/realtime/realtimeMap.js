@@ -197,6 +197,9 @@ export default class RealtimeMapPage extends Component {
         let cautionStationData_R = [];
         let cautionStationData_Y = [];
         let x_for_caution = [];
+        if(!data) {
+            return;
+        }
         data.forEach(item => {
             cautionStationData_R.push({
                 value:item.red,

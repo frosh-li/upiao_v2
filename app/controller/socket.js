@@ -6,7 +6,7 @@ class SocketController extends Controller {
     async index() {
         const {ctx, app} = this;
         let sockets = await app.showSockets();
-        ctx.logger.info('all sockets', sockets);
+        // ctx.logger.info('all sockets', sockets);
         ctx.body = Array.from(sockets);
     }
 
